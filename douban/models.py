@@ -44,3 +44,6 @@ class Douban(models.Model):
     class Meta:
         managed = False
         db_table = 'douban'
+
+    def __str__(self):
+        return self.title
