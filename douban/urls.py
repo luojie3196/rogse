@@ -17,7 +17,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^home/', views.home),
-    url(r'^detail/(?P<page>\d+)$', views.detail),
-    url(r'^next_detail/$', views.next_detail),
+    url(r'^$', views.home),
+    url(r'detail/(?P<page>\d+)$', views.detail),
+    url(r'next_detail/$', views.next_detail),
 ]

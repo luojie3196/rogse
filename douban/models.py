@@ -8,16 +8,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
-
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
+from django.utils.html import format_html
 
 
 class Douban(models.Model):
@@ -44,6 +35,16 @@ class Douban(models.Model):
     class Meta:
         managed = False
         db_table = 'douban'
+        verbose_name_plural = '豆瓣'
 
     def __str__(self):
-        return self.title
+        return '%s %s' % (self.title, self.rate)
+
+    def colored_title(self):
+        return format_html(
+            '<span style="color: #000000;">{}</span>',
+            self.title,
+        )
+
+    colored_title.admin_order_field = 'title'
+
