@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 from douban.models import Douban
+from douban.forms import DoubanForm
 
 # Create your views here.
 
@@ -44,3 +45,8 @@ def next_detail(request):
     except Douban.DoesNotExist:
         raise Http404("Douban does not exist")
     return render(request, 'detail.html', {'detail': p, 'p_start': p_start, 'p_end': p_end})
+
+
+def movie_form(request):
+    form = DoubanForm()
+    return render(request, 'movie_form.html', {'movie_form': form})
