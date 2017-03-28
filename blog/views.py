@@ -12,8 +12,9 @@ def author(request):
     if request.method == "POST":
         form = AuthorForm(request.POST)
         if form.is_valid():
-            a = Author.objects.create(**form.cleaned_data)
-            a.save()
+            # a = Author.objects.create(**form.cleaned_data)
+            # a.save()
+            form.save()
             return HttpResponseRedirect('/blog/author/')
     p_data = Author.objects.all()
     form = AuthorForm()
