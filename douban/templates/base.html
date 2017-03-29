@@ -31,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://v3.bootcss.com/examples/dashboard/#">Douban</a>
+          <a class="navbar-brand" href="/douban/#">Douban</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -40,8 +40,8 @@
             <li><a href="http://v3.bootcss.com/examples/dashboard/#">Profile</a></li>
             <li><a href="http://v3.bootcss.com/examples/dashboard/#">Help</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
+          <form class="navbar-form navbar-right" action="/douban/search/" method="get">
+            <input type="text" class="form-control" placeholder="Search..." name="title">
           </form>
         </div>
       </div>

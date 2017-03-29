@@ -1,25 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Dashboard for Douban
+Search for Douban
 {% endblock %}
 
-{% block page-header-title %}Dashboard {% endblock %}
-
-{% block page-header %}
-<div class="jumbotron">
-  <h1>Hello, world!</h1>
-  <p>...</p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
-{% endblock %}
+{% block sub-header-title %}Search result({{ total }}) {% endblock %}
 
 {% block sub-header %}
 <table class="table table-striped">
   <thead>
     <tr>
       <th>#</th>
-      <th>Title</th>
+      <th>Name</th>
       <th>Rate</th>
       <th>Director</th>
       <th>Region</th>
@@ -47,7 +39,7 @@ Dashboard for Douban
 <div class="pagination">
     <span class="label label-default">
         {% if movies.has_previous %}
-            <a href="?page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+            <a href="?title={{ title }}&page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
         {% endif %}
 
         <span class="current">
@@ -55,7 +47,7 @@ Dashboard for Douban
         </span>
 
         {% if movies.has_next %}
-            <a href="?page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+            <a href="?title={{ title }}&page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
         {% endif %}
     </span>
 </div>

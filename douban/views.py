@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# encoding:utf-8
+
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
@@ -85,3 +88,21 @@ def dashboard(request):
         movies = paginator.page(paginator.num_pages)
 
     return render(request, 'dashboard.html', {'movies': movies})
+
+
+def search(request):
+    title = request.GET.get('title')
+    movie_list = Douban.objects.filter(title__icontains=title)
+    paginator = Paginator(movie_list, 25)  # Show 25 movies per page
+
+    page = request.GET.get('page')
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        movies = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        movies = paginator.page(paginator.num_pages)
+
+    return render(request, 'search.html', {'movies': movies, 'title': title, 'total': len(movie_list)})
