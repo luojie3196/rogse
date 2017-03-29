@@ -71,4 +71,17 @@ def listing(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    movie_list = Douban.objects.all()
+    paginator = Paginator(movie_list, 25)  # Show 25 movies per page
+
+    page = request.GET.get('page')
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        movies = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        movies = paginator.page(paginator.num_pages)
+
+    return render(request, 'dashboard.html', {'movies': movies})

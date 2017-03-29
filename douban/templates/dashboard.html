@@ -1,1 +1,64 @@
 {% extends 'base.html' %}
+
+{% block title %}
+Dashboard for Douban
+{% endblock %}
+
+{% block page-header-title %}Dashboard {% endblock %}
+
+{% block page-header %}
+    <h1>Douban movie list dashboard</h1>
+{% endblock %}
+
+{% block sub-header-title %}Movie list{% endblock %}
+
+{% block sub-header %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Rate</th>
+      <th>Director</th>
+      <th>Protagonist</th>
+      <th>Url</th>
+      <th>Region</th>
+      <th>Language</th>
+      <th>Date</th>
+      <th>Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for movie in movies %}
+    <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ movie.title }}</td>
+          <td>{{ movie.rate }}</td>
+          <td>{{ movie.director }}</td>
+          <td>{{ movie.protagonist }}</td>
+          <td><a href="{{ movie.url }}" target="_blank">{{ movie.url }}</a></td>
+          <td>{{ movie.region }}</td>
+          <td>{{ movie.language }}</td>
+          <td>{{ movie.release_time }}</td>
+          <td>{{ movie.run_time }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if movies.has_previous %}
+            <a href="?page={{ movies.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ movies.number }} of {{ movies.paginator.num_pages }}.
+        </span>
+
+        {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
