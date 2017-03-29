@@ -68,3 +68,7 @@ def listing(request):
         movies = paginator.page(paginator.num_pages)
 
     return render(request, 'list.html', {'movies': movies})
+
+
+def dashboard(request):
+    return render(request, 'dashboard.html')

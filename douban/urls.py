@@ -17,7 +17,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.home),
+    url(r'^$', views.dashboard),
     url(r'detail/(?P<page>\d+)$', views.detail),
     url(r'next_detail/$', views.next_detail),
     url(r'movie_form/$', views.movie_form),
