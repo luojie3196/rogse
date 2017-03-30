@@ -9,7 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 class AuthorForm(ModelForm):
     class Meta:
         model = models.Author
-        fields = ['name', 'email']
+        # fields = ['name', 'email']
+        exclude = []
         # fields = '__all__'
         # widgets = {
         #     'name': Textarea(attrs={'cols': 20, 'rows': 20}),

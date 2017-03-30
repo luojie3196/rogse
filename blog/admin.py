@@ -7,23 +7,27 @@ from django.core import serializers
 # Register your models here.
 
 
+def make_published(modeladmin, request, queryset):
+    queryset.update(status='p')
+make_published.short_description = "Mark selected stories as published"
+
+
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'email']
     list_editable = ['name', 'email']
+    search_fields = ['name', 'email']
 
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ['blog', 'headline', 'body_text', 'pub_date', 'mod_date',
-                  'n_comments', 'n_pingbacks', 'rating']
+                  'n_comments', 'n_pingbacks', 'rating', 'colored_status']
+    filter_horizontal = ('authors',)  # for many to many
+    raw_id_fields = ('blog',)  # for ForeignKey
+    actions = [make_published]
 
 
 class BlogAdmin(admin.ModelAdmin):
     list_display = ['name', 'tagline']
-
-
-def make_published(modeladmin, request, queryset):
-    queryset.update(status='p')
-make_published.short_description = "Mark selected stories as published"
 
 
 class ArticleAdmin(admin.ModelAdmin):

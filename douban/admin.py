@@ -9,8 +9,10 @@ class DoubanAdmin(admin.ModelAdmin):
                     'protagonist', 'm_type', 'region', 'language', 'release_time',
                     'numbers', 'run_time', 'other_title')
     list_filter = ('rate',)
+    search_fields = ['title', 'director']
     # fields = ('rate', 'title', 'other_title')
     list_editable = ('rate',)
     list_per_page = 20
+
 
 admin.site.register(models.Douban, DoubanAdmin)
