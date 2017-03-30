@@ -7,6 +7,7 @@ import datetime
 from douban.models import Douban
 from douban.forms import DoubanForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 # Create your views here.
 
@@ -91,8 +92,10 @@ def dashboard(request):
 
 
 def search(request):
-    title = request.GET.get('title')
-    movie_list = Douban.objects.filter(title__icontains=title)
+    keywords = request.GET.get('keywords')
+    movie_list = Douban.objects.filter(Q(title__icontains=keywords) | Q(director__icontains=keywords) |
+                                       Q(region__icontains=keywords) | Q(language__icontains=keywords) |
+                                       Q(release_time__icontains=keywords))
     paginator = Paginator(movie_list, 25)  # Show 25 movies per page
 
     page = request.GET.get('page')
@@ -105,4 +108,12 @@ def search(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
 
-    return render(request, 'search.html', {'movies': movies, 'title': title, 'total': len(movie_list)})
+    return render(request, 'search.html', {'movies': movies, 'keywords': keywords, 'total': len(movie_list)})
+
+
+def login(request):
+    return render(request, 'login.html')
+
+
+def register(request):
+    return render(request, 'register.html')
