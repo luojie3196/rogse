@@ -1,13 +1,15 @@
 #!/usr/bin/python
 # encoding:utf-8
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 from douban.models import Douban
 from douban.forms import DoubanForm, UserProfileCreationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -74,6 +76,7 @@ def listing(request):
     return render(request, 'list.html', {'movies': movies})
 
 
+@login_required
 def dashboard(request):
     movie_list = Douban.objects.all()
     paginator = Paginator(movie_list, 25)  # Show 25 movies per page
@@ -91,6 +94,7 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'movies': movies})
 
 
+@login_required
 def search(request):
     keywords = request.GET.get('keywords')
     movie_list = Douban.objects.filter(Q(title__icontains=keywords) | Q(director__icontains=keywords) |
@@ -111,16 +115,36 @@ def search(request):
     return render(request, 'search.html', {'movies': movies, 'keywords': keywords, 'total': len(movie_list)})
 
 
-def login(request):
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/douban/')
+        else:
+            return render(request, 'login.html', {'status': '1'})
     return render(request, 'login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/douban/login/')
 
 
 def register(request):
     form = UserProfileCreationForm()
+    if 'status' in request.GET:
+        status = request.GET['status']
+        return render(request, 'register.html', {'forms': form, 'status': status})
     if request.method == "POST":
-        print(request.POST)
         form = UserProfileCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            # return HttpResponseRedirect('/douban/dashboard/')
+            return HttpResponseRedirect('/douban/register/?status=0')
     return render(request, 'register.html', {'forms': form})
+
+
+def settings(request):
+    return render(request, 'settings.html')

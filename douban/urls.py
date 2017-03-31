@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'movie_form/$', views.movie_form),
     url(r'^listing/$', views.listing),
     url(r'^search/$', views.search),
-    url(r'^login/$', views.login, name='login'),
+    url(r'^login/$', views.login_page, name='login_page'),
+    url(r'^logout/$', views.logout_view, name='logout_view'),
     url(r'^register/$', views.register, name='register'),
+    url(r'^settings/$', views.settings, name='settings'),
 ]

@@ -8,23 +8,28 @@ Login for Douban
 
 
 {% block page-header %}
+{% if status == '1' %}
+<ul class="messagelist">
+  <li class="error" style="font-size: large">Sign in failed, please try <a href="{% url "login_page" %}">Sign In</a> again.</li>
+</ul>
+{% else %}
 <div class="jumbotron">
     <h3>New to Access Support Portal?</h3>
     <p>Request an account</p>
     <a href="{% url "register" %}">Register</a>
 </div>
-<form class="form-horizontal" action="{% url "login" %}" method="post">
+<form class="form-horizontal" action="{% url "login_page" %}" method="post">
   {% csrf_token %}
   <div class="form-group">
     <label for="inputName3" class="col-sm-2 control-label">Username</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" name="username" placeholder="Username">
+      <input type="text" class="form-control" name="username" placeholder="Username" required="required">
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
     <div class="col-sm-4">
-      <input type="password" class="form-control" name="password" placeholder="Password">
+      <input type="password" class="form-control" name="password" placeholder="Password" required="required">
     </div>
   </div>
   <div class="form-group">
@@ -47,4 +52,5 @@ Login for Douban
     </div>
   </div>
 </form>
+{% endif %}
 {% endblock %}

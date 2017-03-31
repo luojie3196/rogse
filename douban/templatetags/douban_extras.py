@@ -34,3 +34,10 @@ def t_range(start, end):
         for n in item[-6:-1]:
             new_item.append(n)
         return new_item
+
+
+@register.filter(name='t_dict')
+def t_dict(dic, key):
+    if key in dic:
+        return dic[key]
+    return ''

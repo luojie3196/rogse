@@ -12,6 +12,9 @@
 
     <title>{% block title %}{% endblock %}</title>
 
+    <!-- Admin CSS -->
+    <link href="{% static "admin/css/base.css" %}" rel="stylesheet">
+
     <!-- Bootstrap core CSS -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
 
@@ -36,9 +39,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/douban/#">Dashboard</a></li>
-            <li><a href="http://v3.bootcss.com/examples/dashboard/#">Settings</a></li>
-            <li><a href="http://v3.bootcss.com/examples/dashboard/#">Profile</a></li>
-            <li>{% block sign %}<a href="/douban/login/">Sign In</a>{% endblock %}</li>
+          {% if user.is_authenticated %}
+              <li><a href="/douban/settings/">{{ user }}</a></li>
+              <li><a href="/douban/logout/">Sign Out</a></li>
+          {% else %}
+              <li><a href="/douban/login/">Sign In</a></li>
+          {% endif %}
           </ul>
           <form class="navbar-form navbar-right" action="/douban/search/" method="get">
             <input type="text" class="form-control" placeholder="Search..." name="keywords">

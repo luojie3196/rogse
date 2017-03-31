@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load douban_extras %}
 
 {% block title %}
 Register for Douban
@@ -8,12 +9,18 @@ Register for Douban
 
 
 {% block page-header %}
+{% if status == '0' %}
+<ul class="messagelist">
+  <li class="success" style="font-size: large">Register successful, please <a href="{% url "login_page" %}">Sign In.</a></li>
+</ul>
+{% else %}
 <form class="form-horizontal" action="{% url 'register' %}" method="post">
   {% csrf_token %}
   <div class="form-group">
     <label for="inputName3" class="col-sm-2 control-label">Username</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" name="username" placeholder="Username">
+      <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'username' }}</div>
     </div>
   </div>
   <div class="form-group">
@@ -26,12 +33,14 @@ Register for Douban
     <label for="inputPassword3" class="col-sm-2 control-label">Confirm password</label>
     <div class="col-sm-4">
       <input type="password" class="form-control" name="password2" placeholder="Confirm password">
+      <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'password2' }}</div>
     </div>
   </div>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-4">
       <input type="email" class="form-control" name="email" placeholder="Email">
+       <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'email' }}</div>
     </div>
   </div>
   <div class="form-group">
@@ -55,11 +64,11 @@ Register for Douban
       <input type="tel" class="form-control" name="phone_num" placeholder="phone number">
     </div>
   </div>
-    {{ user_profile_form.errors }}
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-4">
       <button type="submit" class="btn btn-default">Register</button>
     </div>
   </div>
 </form>
+{% endif %}
 {% endblock %}

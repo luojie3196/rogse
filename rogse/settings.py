@@ -133,3 +133,5 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'douban.UserProfile'
+
+LOGIN_URL = '/douban/login/'
