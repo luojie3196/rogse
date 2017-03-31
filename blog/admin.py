@@ -51,7 +51,7 @@ admin.site.register(models.Author, AuthorAdmin)
 admin.site.register(models.Entry, EntryAdmin)
 admin.site.register(models.Blog, BlogAdmin)
 admin.site.register(models.Article, ArticleAdmin)
-admin.site.add_action(export_as_json, 'export_selected')  # global action
+# admin.site.add_action(export_as_json, 'export_selected')  # global action
 
 # Globally disable delete selected
 # admin.site.disable_action('delete_selected')

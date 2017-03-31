@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 from douban.models import Douban
-from douban.forms import DoubanForm
+from douban.forms import DoubanForm, UserProfileCreationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
@@ -116,4 +116,11 @@ def login(request):
 
 
 def register(request):
-    return render(request, 'register.html')
+    form = UserProfileCreationForm()
+    if request.method == "POST":
+        print(request.POST)
+        form = UserProfileCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # return HttpResponseRedirect('/douban/dashboard/')
+    return render(request, 'register.html', {'forms': form})
