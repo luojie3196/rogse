@@ -25,6 +25,10 @@ class DoubanAdmin(admin.ModelAdmin):
 #     search_fields = ('username', 'email', 'real_name', 'phone_num')
 #     list_per_page = 20
 
+def make_active(modeladmin, request, queryset):
+    queryset.update(is_active='1')
+make_active.short_description = "Mark selected users as active"
+
 
 class UserProfileAdmin(BaseUserAdmin):
     # The forms to add and change user instances
@@ -54,6 +58,7 @@ class UserProfileAdmin(BaseUserAdmin):
     search_fields = ('username', 'email',)
     ordering = ('username', 'email',)
     filter_horizontal = ()
+    actions = [make_active]
 
 admin.site.register(models.Douban, DoubanAdmin)
 # admin.site.register(models.UserProfile, UserProfileAdmin)

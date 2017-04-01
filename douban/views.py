@@ -146,5 +146,26 @@ def register(request):
     return render(request, 'register.html', {'forms': form})
 
 
-def settings(request):
+@login_required
+def reports_page(request):
+    return render(request, 'reports.html')
+
+
+@login_required
+def analytics_page(request):
+    return render(request, 'analytics.html')
+
+
+@login_required
+def export_page(request):
+    return render(request, 'export.html')
+
+
+@login_required
+def settings_page(request):
     return render(request, 'settings.html')
+
+
+@login_required
+def views_page(request):
+    return render(request, 'views_page.html')

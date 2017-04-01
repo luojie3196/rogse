@@ -26,5 +26,9 @@ urlpatterns = [
     url(r'^login/$', views.login_page, name='login_page'),
     url(r'^logout/$', views.logout_view, name='logout_view'),
     url(r'^register/$', views.register, name='register'),
-    url(r'^settings/$', views.settings, name='settings'),
+    url(r'^settings/$', views.settings_page, name='settings_page'),
+    url(r'^reports/$', views.reports_page, name='reports_page'),
+    url(r'^analytics/$', views.analytics_page, name='analytics_page'),
+    url(r'^export/$', views.export_page, name='export_page'),
+    url(r'^views/$', views.views_page, name='views_page'),
 ]
