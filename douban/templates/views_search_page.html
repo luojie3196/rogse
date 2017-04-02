@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Views for Douban
+Views search for Douban
 {% endblock %}
 
-{% block page-header-title %}Views {% endblock %}
+{% block page-header-title %}Views search {% endblock %}
 
 {% block page-header %}
 <form class="form-horizontal" action="{% url "views_page" %}" method="get">
@@ -33,6 +33,12 @@ Views for Douban
 关键字: <input type="text" name="keywords">
 <button type="submit" class="btn btn-primary">Go</button>
 </form>
+{% endblock %}
+
+{% block sub-header-title %}
+<em><small>
+    result({{ movies.start_index}}-{{movies.end_index}} of {{total }})
+</small></em>
 {% endblock %}
 
 {% block sub-header %}
@@ -72,7 +78,7 @@ Views for Douban
 <div class="pagination">
     <span class="label label-default">
         {% if movies.has_previous %}
-            <a href="?page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+            <a href="?m_type={{ m_type }}&region={{ region }}&keywords={{ keywords }}&page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
         {% endif %}
 
         <span class="current">
@@ -80,7 +86,7 @@ Views for Douban
         </span>
 
         {% if movies.has_next %}
-            <a href="?page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+            <a href="?m_type={{ m_type }}&region={{ region }}&keywords={{ keywords }}&page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
         {% endif %}
     </span>
 </div>

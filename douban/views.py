@@ -10,6 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from douban.commons import M_TYPES, REGIONS
 
 # Create your views here.
 
@@ -168,7 +169,24 @@ def settings_page(request):
 
 @login_required
 def views_page(request):
-    movie_list = Douban.objects.all()
+    flag = True
+    try:
+        m_type = request.GET['m_type']
+        keywords = request.GET['keywords']
+        region = request.GET['region']
+    except KeyError:
+        movie_list = Douban.objects.all()
+        flag = False
+    else:
+        movie_list = Douban.objects.filter((Q(title__icontains=keywords) | Q(director__icontains=keywords) |
+                                            Q(scriptwriter__icontains=keywords) | Q(protagonist__icontains=keywords)) &
+                                           Q(m_type__icontains=m_type) & Q(region__icontains=region))
+    # get m_type and region from douban objects
+    '''
+    m_types = merge_to_list(p.m_type for p in movie_list)
+    regions = merge_to_list(p.region for p in movie_list)
+    define m_type and regon by code in commons.py
+    '''
     paginator = Paginator(movie_list, 25)  # Show 25 movies per page
 
     page = request.GET.get('page')
@@ -180,5 +198,12 @@ def views_page(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
+    if flag:
+        return render(request, 'views_search_page.html',
+                      {'movies': movies, 'm_types': M_TYPES, 'regions': REGIONS,
+                       'm_type': request.GET['m_type'], 'region': request.GET['region'],
+                       'keywords': request.GET['keywords'], 'total': len(movie_list)})
+    else:
+        return render(request, 'views_page.html',
+                      {'movies': movies, 'm_types': M_TYPES, 'regions': REGIONS})
 
-    return render(request, 'views_page.html', {'movies': movies})
