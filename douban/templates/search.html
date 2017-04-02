@@ -4,7 +4,11 @@
 Search for Douban
 {% endblock %}
 
-{% block sub-header-title %}<em><small>Search result({{ total }})</small></em>{% endblock %}
+{% block sub-header-title %}
+<em><small>
+    result({{ movies.start_index}}-{{movies.end_index}} of {{total }})
+</small></em>
+{% endblock %}
 
 {% block sub-header %}
 <table class="table table-striped">

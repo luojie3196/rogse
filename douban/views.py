@@ -79,7 +79,16 @@ def listing(request):
 
 @login_required
 def dashboard(request):
-    movie_list = Douban.objects.all()
+    search_mode = True
+    try:
+        keywords = request.GET['keywords']
+    except KeyError:
+        movie_list = Douban.objects.all()
+        search_mode = False
+    else:
+        movie_list = Douban.objects.filter(Q(title__icontains=keywords) | Q(director__icontains=keywords) |
+                                           Q(region__icontains=keywords) | Q(language__icontains=keywords) |
+                                           Q(release_time__icontains=keywords))
     paginator = Paginator(movie_list, 25)  # Show 25 movies per page
 
     page = request.GET.get('page')
@@ -91,29 +100,11 @@ def dashboard(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
-
-    return render(request, 'dashboard.html', {'movies': movies})
-
-
-@login_required
-def search(request):
-    keywords = request.GET.get('keywords')
-    movie_list = Douban.objects.filter(Q(title__icontains=keywords) | Q(director__icontains=keywords) |
-                                       Q(region__icontains=keywords) | Q(language__icontains=keywords) |
-                                       Q(release_time__icontains=keywords))
-    paginator = Paginator(movie_list, 25)  # Show 25 movies per page
-
-    page = request.GET.get('page')
-    try:
-        movies = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        movies = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        movies = paginator.page(paginator.num_pages)
-
-    return render(request, 'search.html', {'movies': movies, 'keywords': keywords, 'total': len(movie_list)})
+    if search_mode:
+        return render(request, 'search.html', {'movies': movies, 'keywords': request.GET['keywords'],
+                                               'total': len(movie_list)})
+    else:
+        return render(request, 'dashboard.html', {'movies': movies})
 
 
 def login_page(request):
@@ -169,14 +160,14 @@ def settings_page(request):
 
 @login_required
 def views_page(request):
-    flag = True
+    search_mode = True
     try:
         m_type = request.GET['m_type']
         keywords = request.GET['keywords']
         region = request.GET['region']
     except KeyError:
         movie_list = Douban.objects.all()
-        flag = False
+        search_mode = False
     else:
         movie_list = Douban.objects.filter((Q(title__icontains=keywords) | Q(director__icontains=keywords) |
                                             Q(scriptwriter__icontains=keywords) | Q(protagonist__icontains=keywords)) &
@@ -198,7 +189,7 @@ def views_page(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
-    if flag:
+    if search_mode:
         return render(request, 'views_search_page.html',
                       {'movies': movies, 'm_types': M_TYPES, 'regions': REGIONS,
                        'm_type': request.GET['m_type'], 'region': request.GET['region'],

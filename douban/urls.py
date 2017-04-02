@@ -17,12 +17,11 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.dashboard),
+    url(r'^$', views.dashboard, name='dashboard'),
     url(r'detail/(?P<page>\d+)$', views.detail),
     url(r'next_detail/$', views.next_detail),
     url(r'movie_form/$', views.movie_form),
     url(r'^listing/$', views.listing),
-    url(r'^search/$', views.search),
     url(r'^login/$', views.login_page, name='login_page'),
     url(r'^logout/$', views.logout_view, name='logout_view'),
     url(r'^register/$', views.register, name='register'),

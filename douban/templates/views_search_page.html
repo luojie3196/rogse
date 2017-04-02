@@ -10,7 +10,7 @@ Views search for Douban
 <form class="form-horizontal" action="{% url "views_page" %}" method="get">
 <div style="float:right">
     <div style="float:left">
-        类型:
+        Type:
         <select name="m_type" class="">
           <option></option>
           {% for m_type in m_types %}
@@ -20,7 +20,7 @@ Views search for Douban
     </div>
     <div style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
     <div style="float:left">
-        地区:
+        Region:
         <select name="region" class="">
           <option></option>
           {% for region in regions %}
@@ -30,7 +30,7 @@ Views search for Douban
     </div>
     <div style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
 </div>
-关键字: <input type="text" name="keywords">
+Keyword: <input type="text" name="keywords">
 <button type="submit" class="btn btn-primary">Go</button>
 </form>
 {% endblock %}
