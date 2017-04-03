@@ -150,7 +150,32 @@ def analytics_page(request):
 
 @login_required
 def export_page(request):
-    return render(request, 'export.html')
+    filter_mode = True
+    rows_num_list = ['25', '50', '100', '250', '500', '1000']
+    movie_list = Douban.objects.all()
+    try:
+        rows_num = request.GET['rows_num']
+    except KeyError:
+        paginator = Paginator(movie_list, 25)  # Show 25 movies per page
+        filter_mode = False
+    else:
+        if rows_num in rows_num_list:
+            rows_num_list.remove(rows_num)
+        paginator = Paginator(movie_list, rows_num)
+
+    page = request.GET.get('page')
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        movies = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        movies = paginator.page(paginator.num_pages)
+    if filter_mode:
+        return render(request, 'export.html', {'movies': movies, 'total': len(movie_list),
+                                               'rows_num': request.GET['rows_num'], 'rows_num_list': rows_num_list})
+    return render(request, 'export.html', {'movies': movies, 'total': len(movie_list), 'rows_num_list': rows_num_list})
 
 
 @login_required

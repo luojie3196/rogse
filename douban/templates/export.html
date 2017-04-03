@@ -7,9 +7,81 @@ Export for Douban
 {% block page-header-title %}Export {% endblock %}
 
 {% block page-header %}
-<div class="jumbotron">
-  <h1>Hello, world!</h1>
-  <p>...</p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+<form class="form-horizontal" action="{% url "export_page" %}" method="get">
+Number of rows:
+<select name="rows_num" class="">
+    {% if rows_num %}
+  <option selected="selected">{{ rows_num }}</option>
+    {% endif %}
+{% for row in rows_num_list %}
+  <option>{{ row }}</option>
+{% endfor %}
+</select>
+&nbsp;&nbsp;&nbsp;
+<button type="submit" class="btn btn-primary">Go</button>
+</form>
+{% endblock %}
+
+{% block sub-header-title %}
+<em><small>
+    export({{ movies.start_index}}-{{movies.end_index}} of {{total }})
+    <div style="float:right">
+        <a href="" class="btn btn-warning" >Export</a>
+    </div>
+</small></em>
+{% endblock %}
+
+{% block sub-header %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><span><input type="checkbox" id="action-toggle"></span></th>
+      <th>Title</th>
+      <th>Rate</th>
+      <th>Director</th>
+      <th>Region</th>
+      <th>Language</th>
+      <th>Date</th>
+      <th>Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for movie in movies %}
+    <tr>
+          <td class="action-checkbox"><input class="action-select" name="_selected_action" type="checkbox"></td>
+          <td><a href="{{ movie.url }}" target="_blank">{{ movie.title }}</a></td>
+          <td>{{ movie.rate }}</td>
+          <td>{{ movie.director }}</td>
+          <td>{{ movie.region }}</td>
+          <td>{{ movie.language }}</td>
+          <td>{{ movie.release_time }}</td>
+          <td>{{ movie.run_time }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+    <span class="label label-default">
+        {% if movies.has_previous %}
+            {% if rows_num %}
+            <a href="?rows_num={{ rows_num }}&page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+            {% else %}
+            <a href="?page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+            {% endif %}
+        {% endif %}
+
+        <span class="current">
+            {{ movies.number }} of {{ movies.paginator.num_pages }}
+        </span>
+
+        {% if movies.has_next %}
+            {% if rows_num %}
+            <a href="?rows_num={{ rows_num }}&page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+            {% else %}
+            <a href="?page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+            {% endif %}
+        {% endif %}
+    </span>
 </div>
 {% endblock %}
