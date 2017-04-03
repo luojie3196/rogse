@@ -10,7 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from douban.commons import M_TYPES, REGIONS
+from douban.commons import M_TYPES, REGIONS, generate_xls, file_download
 
 # Create your views here.
 
@@ -153,10 +153,23 @@ def export_page(request):
     filter_mode = True
     rows_num_list = ['25', '50', '100', '250', '500', '1000']
     movie_list = Douban.objects.all()
+    # Export file code
+    try:
+        start_index = request.GET['start_index']
+        end_index = request.GET['end_index']
+    except KeyError:
+        pass
+    else:
+        file_name_path = generate_xls(movie_list, start_index, end_index)
+        return file_download(file_name_path)
+        # Second way download file
+        # from django.views.static import serve
+        # import os
+        # return serve(request, os.path.basename(file_name_path), os.path.dirname(file_name_path))
     try:
         rows_num = request.GET['rows_num']
     except KeyError:
-        paginator = Paginator(movie_list, 25)  # Show 25 movies per page
+        paginator = Paginator(movie_list, 25)  # Default show 25 movies per page
         filter_mode = False
     else:
         if rows_num in rows_num_list:

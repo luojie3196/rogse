@@ -26,7 +26,7 @@ Number of rows:
 <em><small>
     export({{ movies.start_index}}-{{movies.end_index}} of {{total }})
     <div style="float:right">
-        <a href="" class="btn btn-warning" >Export</a>
+        <a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}" class="btn btn-warning" target="_blank">Export</a>
     </div>
 </small></em>
 {% endblock %}
