@@ -151,7 +151,7 @@ def analytics_page(request):
 @login_required
 def export_page(request):
     filter_mode = True
-    rows_num_list = ['25', '50', '100', '250', '500', '1000']
+    rows_num_list = ['25', '50', '100', '250', '500', '1000', '5000']
     movie_list = Douban.objects.all()
     # Export file code
     try:
@@ -160,6 +160,8 @@ def export_page(request):
     except KeyError:
         pass
     else:
+        if end_index not in rows_num_list or start_index > end_index:
+            return HttpResponseRedirect('/douban/export/')
         file_name_path = generate_xls(movie_list, start_index, end_index)
         return file_download(file_name_path)
         # Second way download file
@@ -172,8 +174,10 @@ def export_page(request):
         paginator = Paginator(movie_list, 25)  # Default show 25 movies per page
         filter_mode = False
     else:
-        if rows_num in rows_num_list:
+        try:
             rows_num_list.remove(rows_num)
+        except ValueError:
+            return HttpResponseRedirect('/douban/export/')
         paginator = Paginator(movie_list, rows_num)
 
     page = request.GET.get('page')
