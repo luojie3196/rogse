@@ -268,3 +268,14 @@ def generate_map_data(movie_data):
         map_data.append({'name': name, 'value': value})
     return str(map_data).replace('\'name\'', 'name').replace('\'value\'', 'value')
 
+
+def generate_type_data(movie_data):
+    type_dict = {}
+    for movie in movie_data:
+        for type_name in M_TYPES:
+            if type_name in movie.m_type:
+                if type_name not in type_dict:
+                    type_dict[type_name] = 1
+                    break
+                type_dict[type_name] += 1
+    return type_dict

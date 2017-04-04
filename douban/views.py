@@ -10,7 +10,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from douban.commons import M_TYPES, REGIONS, generate_xls, file_download, merge_to_list, generate_map_data
+from douban.commons import M_TYPES, REGIONS, generate_xls, file_download, merge_to_list, \
+    generate_map_data, generate_type_data
 
 # Create your views here.
 
@@ -147,6 +148,7 @@ def reports_page(request):
 def analytics_page(request):
     # movie_data = Douban.objects.all()
     # map_data = generate_map_data(movie_data)
+    # type_dict = generate_type_data(movie_data)
     # regions = merge_to_list(p.region for p in movie_data)
     # return render(request, 'analytics.html', {'map_data': map_data})
     return render(request, 'analytics.html')

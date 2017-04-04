@@ -83,8 +83,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_int',
         'USER': 'int',
+        # 'USER': 'root',
         'PASSWORD': '93560',
         'HOST': '172.16.34.142',
+        # 'HOST': '',
         'PORT': '3306',
     }
 }
@@ -135,3 +137,5 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = 'douban.UserProfile'
 
 LOGIN_URL = '/douban/login/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
