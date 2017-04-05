@@ -322,7 +322,7 @@ def generate_map_data(movie_data):
     map_data = []
     for name, value in region_count.items():
         map_data.append({'name': name, 'value': value})
-    return str(map_data).replace('\'name\'', 'name').replace('\'value\'', 'value')
+    return map_data
 
 
 def generate_type_data(movie_data):
@@ -334,4 +334,10 @@ def generate_type_data(movie_data):
                     type_dict[type_name] = 1
                     break
                 type_dict[type_name] += 1
-    return type_dict
+    type_name = []
+    type_num = []
+    type_sorted = sorted(type_dict.items(), key=lambda d: d[1])
+    for k, v in type_sorted:
+        type_name.append(k)
+        type_num.append(v)
+    return type_name, type_num

@@ -4,6 +4,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
+import json
 from douban.models import Douban
 from douban.forms import DoubanForm, UserProfileCreationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -172,12 +173,14 @@ def reports_page(request):
 
 @login_required
 def analytics_page(request):
-    # movie_data = Douban.objects.all()
-    # map_data = generate_map_data(movie_data)
-    # type_dict = generate_type_data(movie_data)
+    movie_data = Douban.objects.all()
+    map_data = generate_map_data(movie_data)
+    type_name, type_num = generate_type_data(movie_data)
     # regions = merge_to_list(p.region for p in movie_data)
     # return render(request, 'analytics.html', {'map_data': map_data})
-    return render(request, 'analytics.html')
+    return render(request, 'analytics.html', {'type_name': json.dumps(type_name),
+                                              'type_num': json.dumps(type_num),
+                                              'map_data': json.dumps(map_data)})
 
 
 @login_required
