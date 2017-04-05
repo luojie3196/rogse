@@ -81,15 +81,41 @@ def listing(request):
 @login_required
 def dashboard(request):
     search_mode = True
+    if request.session.get('sortBy'):
+        if request.GET.get('sortBy'):
+            if request.GET.get('sortBy') != request.session['sortBy']:
+                request.session['prevSortBy'] = request.session['sortBy']
+                request.session['sortBy'] = request.GET.get('sortBy')
+                request.session['prevSortOrder'] = request.session['sortOrder']
+                request.session['sortOrder'] = 'DESC'
+            else:
+                if 'ASC' == request.session.get('sortOrder'):
+                    request.session['sortOrder'] = 'DESC'
+                else:
+                    request.session['sortOrder'] = 'ASC'
+    else:
+        if not request.GET.get('sortBy'):
+            request.session['sortBy'] = 'rate'
+            request.session['prevSortBy'] = 'release_time'
+            request.session["sortOrder"] = 'DESC'
+            request.session["prevSortOrder"] = 'DESC'
+        else:
+            request.session['sortBy'] = request.GET.get('sortBy')
+            request.session["sortOrder"] = 'DESC'
+
+    sort_by = request.session.get('sortBy')
+    sort_order = request.session.get('sortOrder')
+    if sort_order == 'DESC':
+        sort_by = '-' + sort_by
     try:
         keywords = request.GET['keywords']
     except KeyError:
-        movie_list = Douban.objects.all()
+        movie_list = Douban.objects.order_by(sort_by)
         search_mode = False
     else:
         movie_list = Douban.objects.filter(Q(title__icontains=keywords) | Q(director__icontains=keywords) |
                                            Q(region__icontains=keywords) | Q(language__icontains=keywords) |
-                                           Q(release_time__icontains=keywords))
+                                           Q(release_time__icontains=keywords)).order_by(sort_by)
     paginator = Paginator(movie_list, 25)  # Show 25 movies per page
 
     page = request.GET.get('page')
