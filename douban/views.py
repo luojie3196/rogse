@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from douban.commons import M_TYPES, REGIONS, generate_xls, file_download, merge_to_list, \
-    generate_map_data, generate_type_data
+    generate_map_data, generate_type_data, export_xls
 
 # Create your views here.
 
@@ -168,9 +168,14 @@ def export_page(request):
     else:
         if end_index not in rows_num_list or start_index > end_index:
             return HttpResponseRedirect('/douban/export/')
-        file_name_path = generate_xls(movie_list, start_index, end_index)
-        return file_download(file_name_path)
-        # Second way download file
+        # generate excel first and then download it
+        # file_name_path = generate_xls(movie_list, start_index, end_index)
+        # return file_download(file_name_path)
+
+        # export excel file directly by BytesIO stream
+        return export_xls(movie_list, start_index, end_index)
+
+        # the second way download file
         # from django.views.static import serve
         # import os
         # return serve(request, os.path.basename(file_name_path), os.path.dirname(file_name_path))
