@@ -11,8 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from douban.commons import M_TYPES, REGIONS, generate_xls, file_download, merge_to_list, \
-    generate_map_data, generate_type_data, export_xls, list_sort
+from douban.commons import *
 
 # Create your views here.
 
@@ -155,10 +154,13 @@ def analytics_page(request):
     map_data = generate_map_data(movie_data)
     type_name, type_num = generate_type_data(movie_data)
     # regions = merge_to_list(p.region for p in movie_data)
-    # return render(request, 'analytics.html', {'map_data': map_data})
+    year_data, year_name, year_num = generate_years_data(movie_data)
     return render(request, 'analytics.html', {'type_name': json.dumps(type_name),
                                               'type_num': json.dumps(type_num),
-                                              'map_data': json.dumps(map_data)})
+                                              'map_data': json.dumps(map_data),
+                                              'year_data': json.dumps(year_data),
+                                              'year_name': json.dumps(year_name),
+                                              'year_num': json.dumps(year_num)})
 
 
 @login_required

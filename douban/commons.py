@@ -7,15 +7,6 @@ import xlwt
 import time
 from io import BytesIO
 
-
-def merge_to_list(generator):
-    p_list = []
-    for p in generator:
-        for n in p.split('/'):
-            p_list.append(n.replace(' ', ''))
-    p_list = list(set(p_list))
-    return p_list
-
 M_TYPES = ['爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典',
            '悬疑', '青春', '犯罪', '惊悚', '文艺', '搞笑', '纪录片',
            '励志', '恐怖', '战争', '短片', '黑色幽默', '魔幻', '传记',
@@ -28,6 +19,20 @@ REGIONS = ['美国', '日本', '香港', '英国', '中国', '韩国', '法国',
            '伊朗', '瑞典', '爱尔兰', '巴西', '丹麦', '波兰', '捷克',
            '阿根廷', '比利时', '墨西哥', '新西兰', '荷兰', '奥地利',
            '土耳其', '匈牙利', '以色列', '瑞士']
+
+YEARS = ['2016', '2015', '2013', '2014', '2011', '2012', '2010', '2009',
+         '2008', '2007', '2006', '2004', '2005', '2003', '2001', '2002',
+         '1994', '2000', '1997', '1999', '1998', '1995', '1996', '1993',
+         '1992', '1990', '1991', '1988']
+
+
+def merge_to_list(generator):
+    p_list = []
+    for p in generator:
+        for n in p.split('/'):
+            p_list.append(n.replace(' ', ''))
+    p_list = list(set(p_list))
+    return p_list
 
 
 def file_download(file_name_path):
@@ -384,3 +389,26 @@ def list_sort(request):
         if sort_order:
             sort_by = '-' + sort_by
     return sort_by, sort_order
+
+
+def generate_years_data(movie_data):
+    year_dict = {}
+    for movie in movie_data:
+        for year in YEARS:
+            if year in movie.release_time:
+                if year not in year_dict:
+                    year_dict[year] = 1
+                    break
+                year_dict[year] += 1
+
+    year_data = []
+    for name, value in year_dict.items():
+        year_data.append({'name': name, 'value': value})
+
+    year_name = []
+    year_num = []
+    year_sorted = sorted(year_dict.items(), key=lambda d: d[0])
+    for k, v in year_sorted:
+        year_name.append(k)
+        year_num.append(v)
+    return year_data, year_name, year_num
