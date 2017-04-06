@@ -341,3 +341,46 @@ def generate_type_data(movie_data):
         type_name.append(k)
         type_num.append(v)
     return type_name, type_num
+
+
+def list_sort(request):
+    if request.session.get('sortBy'):
+        if request.GET.get('sortBy'):
+            if request.GET.get('sortBy') != request.session['sortBy']:
+                request.session['prevSortBy'] = request.session['sortBy']
+                request.session['sortBy'] = request.GET.get('sortBy')
+                # request.session['prevSortOrder'] = request.session['sortOrder']
+            #     request.session['sortOrder'] = 'DESC'
+            # else:
+            #     if 'ASC' == request.session.get('sortOrder'):
+            #         request.session['sortOrder'] = 'DESC'
+            #     else:
+            #         request.session['sortOrder'] = 'ASC'
+    else:
+        if not request.GET.get('sortBy'):
+            request.session['sortBy'] = '-2'
+            request.session['prevSortBy'] = '-6'
+            # request.session["sortOrder"] = 'DESC'
+            # request.session["prevSortOrder"] = 'DESC'
+        else:
+            request.session['sortBy'] = request.GET.get('sortBy')
+            # request.session["sortOrder"] = 'DESC'
+
+    sort_by = request.session.get('sortBy')
+    # sort_order = request.session.get('sortOrder')
+    # if sort_order == 'DESC':
+    #     sort_by = '-' + sort_by
+    sort_order = False
+    if sort_by.startswith('-'):
+        sort_order = True
+
+    # Get sort fields
+    query_list = ['title', 'rate', 'director', 'region', 'language', 'release_time', 'run_time']
+    try:
+        sort_by = query_list[abs(int(sort_by)) - 1]
+    except (IndexError, ValueError):
+        sort_by = '-rate'
+    else:
+        if sort_order:
+            sort_by = '-' + sort_by
+    return sort_by, sort_order

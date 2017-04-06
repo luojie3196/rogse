@@ -40,14 +40,24 @@ Dashboard for Douban
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>#</th>
-      <th><a style="text-decoration: none" href="?sortBy=title">Title</a></th>
-      <th><a style="text-decoration: none" href="?sortBy=rate">Rate</a></th>
-      <th><a style="text-decoration: none" href="?sortBy=director">Director</a></th>
-      <th><a style="text-decoration: none" href="?sortBy=region">Region</a></th>
-      <th><a style="text-decoration: none" href="?sortBy=language">Language</a></th>
-      <th><a style="text-decoration: none" href="?sortBy=release_time">Date</a></th>
-      <th><a style="text-decoration: none" href="?sortBy=run_time">Duration</a></th>
+      <th width="5%">#</th>
+        {% if sort_order %}
+            <th width="20%"><a style="text-decoration: none" href="?sortBy=1">Title</a></th>
+            <th width="5%"><a style="text-decoration: none" href="?sortBy=2">Rate</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?sortBy=3">Director</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?sortBy=4">Region</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?sortBy=5">Language</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?sortBy=6">Date</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?sortBy=7">Duration</a></th>
+        {% else %}
+            <th width="20%"><a style="text-decoration: none" href="?sortBy=-1">Title</a></th>
+            <th width="5%"><a style="text-decoration: none" href="?sortBy=-2">Rate</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?sortBy=-3">Director</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?sortBy=-4">Region</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?sortBy=-5">Language</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?sortBy=-6">Date</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?sortBy=-7">Duration</a></th>
+        {% endif %}
     </tr>
   </thead>
   <tbody>

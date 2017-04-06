@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from douban.commons import M_TYPES, REGIONS, generate_xls, file_download, merge_to_list, \
-    generate_map_data, generate_type_data, export_xls
+    generate_map_data, generate_type_data, export_xls, list_sort
 
 # Create your views here.
 
@@ -82,32 +82,9 @@ def listing(request):
 @login_required
 def dashboard(request):
     search_mode = True
-    if request.session.get('sortBy'):
-        if request.GET.get('sortBy'):
-            if request.GET.get('sortBy') != request.session['sortBy']:
-                request.session['prevSortBy'] = request.session['sortBy']
-                request.session['sortBy'] = request.GET.get('sortBy')
-                request.session['prevSortOrder'] = request.session['sortOrder']
-                request.session['sortOrder'] = 'DESC'
-            else:
-                if 'ASC' == request.session.get('sortOrder'):
-                    request.session['sortOrder'] = 'DESC'
-                else:
-                    request.session['sortOrder'] = 'ASC'
-    else:
-        if not request.GET.get('sortBy'):
-            request.session['sortBy'] = 'rate'
-            request.session['prevSortBy'] = 'release_time'
-            request.session["sortOrder"] = 'DESC'
-            request.session["prevSortOrder"] = 'DESC'
-        else:
-            request.session['sortBy'] = request.GET.get('sortBy')
-            request.session["sortOrder"] = 'DESC'
 
-    sort_by = request.session.get('sortBy')
-    sort_order = request.session.get('sortOrder')
-    if sort_order == 'DESC':
-        sort_by = '-' + sort_by
+    sort_by, sort_order = list_sort(request)
+    # get keywords, filter query if yes, otherwise skip
     try:
         keywords = request.GET['keywords']
     except KeyError:
@@ -130,9 +107,9 @@ def dashboard(request):
         movies = paginator.page(paginator.num_pages)
     if search_mode:
         return render(request, 'search.html', {'movies': movies, 'keywords': request.GET['keywords'],
-                                               'total': len(movie_list)})
+                                               'total': len(movie_list), 'sort_order': sort_order})
     else:
-        return render(request, 'dashboard.html', {'movies': movies})
+        return render(request, 'dashboard.html', {'movies': movies, 'sort_order': sort_order})
 
 
 def login_page(request):
@@ -187,7 +164,9 @@ def analytics_page(request):
 def export_page(request):
     filter_mode = True
     rows_num_list = ['25', '50', '100', '250', '500', '1000', '5000']
-    movie_list = Douban.objects.all()
+
+    sort_by, sort_order = list_sort(request)
+    movie_list = Douban.objects.order_by(sort_by)
     # Export file code
     try:
         start_index = request.GET['start_index']
@@ -231,8 +210,11 @@ def export_page(request):
         movies = paginator.page(paginator.num_pages)
     if filter_mode:
         return render(request, 'export.html', {'movies': movies, 'total': len(movie_list),
-                                               'rows_num': request.GET['rows_num'], 'rows_num_list': rows_num_list})
-    return render(request, 'export.html', {'movies': movies, 'total': len(movie_list), 'rows_num_list': rows_num_list})
+                                               'rows_num': request.GET['rows_num'],
+                                               'rows_num_list': rows_num_list,
+                                               'sort_order': sort_order})
+    return render(request, 'export.html', {'movies': movies, 'total': len(movie_list),
+                                           'rows_num_list': rows_num_list, 'sort_order': sort_order})
 
 
 @login_required

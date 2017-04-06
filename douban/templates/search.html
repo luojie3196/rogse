@@ -14,14 +14,24 @@ Search for Douban
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Rate</th>
-      <th>Director</th>
-      <th>Region</th>
-      <th>Language</th>
-      <th>Date</th>
-      <th>Duration</th>
+      <th width="5%">#</th>
+        {% if sort_order %}
+            <th width="20%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=1">Title</a></th>
+            <th width="5%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=2">Rate</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=3">Director</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=4">Region</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=5">Language</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=6">Date</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=7">Duration</a></th>
+        {% else %}
+            <th width="20%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-1">Title</a></th>
+            <th width="5%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-2">Rate</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-3">Director</a></th>
+            <th width="20%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-4">Region</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-5">Language</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-6">Date</a></th>
+            <th width="10%"><a style="text-decoration: none" href="?keywords={{ keywords }}&sortBy=-7">Duration</a></th>
+        {% endif %}
     </tr>
   </thead>
   <tbody>
