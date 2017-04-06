@@ -7,7 +7,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 class DoubanForm(ModelForm):
     class Meta:
         model = models.Douban
-        fields = ['title', 'rate', 'region', 'run_time']
+        fields = '__all__'
 
 
 class UserProfileForm(ModelForm):

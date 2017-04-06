@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^analytics/$', views.analytics_page, name='analytics_page'),
     url(r'^export/$', views.export_page, name='export_page'),
     url(r'^views/$', views.views_page, name='views_page'),
+    url(r'^forgotpassword/$', views.forgot_password, name='forgot_password'),
 ]

@@ -145,7 +145,8 @@ def register(request):
 
 @login_required
 def reports_page(request):
-    return render(request, 'reports.html')
+    form = DoubanForm()
+    return render(request, 'reports.html', {'movie_form': form})
 
 
 @login_required
@@ -262,3 +263,6 @@ def views_page(request):
         return render(request, 'views_page.html',
                       {'movies': movies, 'm_types': M_TYPES, 'regions': REGIONS})
 
+
+def forgot_password(request):
+    return render(request, 'forgot_password.html')
