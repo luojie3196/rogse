@@ -106,10 +106,14 @@ def dashboard(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
     if search_mode:
-        return render(request, 'search.html', {'movies': movies, 'keywords': request.GET['keywords'],
-                                               'total': len(movie_list), 'sort_order': sort_order})
-    else:
-        return render(request, 'dashboard.html', {'movies': movies, 'sort_order': sort_order})
+        context = {'movies': movies,
+                   'keywords': request.GET['keywords'],
+                   'total': len(movie_list),
+                   'sort_order': sort_order}
+        return render(request, 'search.html', context=context)
+    context = {'movies': movies,
+               'sort_order': sort_order}
+    return render(request, 'dashboard.html', context=context)
 
 
 def login_page(request):
@@ -151,17 +155,18 @@ def reports_page(request):
 
 @login_required
 def analytics_page(request):
-    movie_data = Douban.objects.all()
-    map_data = generate_map_data(movie_data)
-    type_name, type_num = generate_type_data(movie_data)
+    movie_obj = Douban.objects.all()
+    map_data = generate_map_data(movie_obj)
+    type_name, type_num = generate_type_data(movie_obj)
     # regions = merge_to_list(p.region for p in movie_data)
-    year_data, year_name, year_num = generate_years_data(movie_data)
-    return render(request, 'analytics.html', {'type_name': json.dumps(type_name),
-                                              'type_num': json.dumps(type_num),
-                                              'map_data': json.dumps(map_data),
-                                              'year_data': json.dumps(year_data),
-                                              'year_name': json.dumps(year_name),
-                                              'year_num': json.dumps(year_num)})
+    year_data, year_name, year_num = generate_years_data(movie_obj)
+    context = {'type_name': json.dumps(type_name),
+               'type_num': json.dumps(type_num),
+               'map_data': json.dumps(map_data),
+               'year_data': json.dumps(year_data),
+               'year_name': json.dumps(year_name),
+               'year_num': json.dumps(year_num)}
+    return render(request, 'analytics.html', context=context)
 
 
 @login_required
@@ -213,12 +218,17 @@ def export_page(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
     if filter_mode:
-        return render(request, 'export.html', {'movies': movies, 'total': len(movie_list),
-                                               'rows_num': request.GET['rows_num'],
-                                               'rows_num_list': rows_num_list,
-                                               'sort_order': sort_order})
-    return render(request, 'export.html', {'movies': movies, 'total': len(movie_list),
-                                           'rows_num_list': rows_num_list, 'sort_order': sort_order})
+        context = {'movies': movies,
+                   'total': len(movie_list),
+                   'rows_num': request.GET['rows_num'],
+                   'rows_num_list': rows_num_list,
+                   'sort_order': sort_order}
+        return render(request, 'export.html', context=context)
+    context = {'movies': movies,
+               'total': len(movie_list),
+               'rows_num_list': rows_num_list,
+               'sort_order': sort_order}
+    return render(request, 'export.html', context=context)
 
 
 @login_required
@@ -258,13 +268,18 @@ def views_page(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
     if search_mode:
-        return render(request, 'views_search_page.html',
-                      {'movies': movies, 'm_types': M_TYPES, 'regions': REGIONS,
-                       'm_type': request.GET['m_type'], 'region': request.GET['region'],
-                       'keywords': request.GET['keywords'], 'total': len(movie_list)})
-    else:
-        return render(request, 'views_page.html',
-                      {'movies': movies, 'm_types': M_TYPES, 'regions': REGIONS})
+        context = {'movies': movies,
+                   'm_types': M_TYPES,
+                   'regions': REGIONS,
+                   'm_type': request.GET['m_type'],
+                   'region': request.GET['region'],
+                   'keywords': request.GET['keywords'],
+                   'total': len(movie_list)}
+        return render(request, 'views_search_page.html', context=context)
+    context = {'movies': movies,
+               'm_types': M_TYPES,
+               'regions': REGIONS}
+    return render(request, 'views_page.html', context=context)
 
 
 def forgot_password(request):

@@ -317,9 +317,9 @@ region_list = {
 }
 
 
-def generate_map_data(movie_data):
+def generate_map_data(movie_obj):
     region_count = {}
-    for movie in movie_data:
+    for movie in movie_obj:
         for k, v in region_list.items():
             if k in movie.region or v.lower() in movie.region.lower():
                 if v not in region_count:
@@ -331,9 +331,9 @@ def generate_map_data(movie_data):
     return map_data
 
 
-def generate_type_data(movie_data):
+def generate_type_data(movie_obj):
     type_dict = {}
-    for movie in movie_data:
+    for movie in movie_obj:
         for type_name in M_TYPES:
             if type_name in movie.m_type:
                 if type_name not in type_dict:
@@ -392,9 +392,9 @@ def list_sort(request):
     return sort_by, sort_order
 
 
-def generate_years_data(movie_data):
+def generate_years_data(movie_obj):
     year_dict = {}
-    for movie in movie_data:
+    for movie in movie_obj:
         for year in YEARS:
             if year in movie.release_time:
                 if year not in year_dict:
