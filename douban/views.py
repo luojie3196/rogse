@@ -19,23 +19,13 @@ from django.core.mail import send_mail
 
 def home(request):
     now = datetime.datetime.now()
-    # html = "<html><body>It is now %s.</body></html>" % now
-    # return HttpResponse(html)
-    try:
-        p = Douban.objects.all()
-    except Douban.DoesNotExist:
-        raise Http404("Douban does not exist")
-    return render(request, 'home.html', {'now': now, 'detail_list': p})
+    return render(request, 'home.html', {'now': now})
 
 
 def detail(request, page):
     p_start = int(page) - 20
     p_end = int(page)
-    try:
-        p = Douban.objects.all()
-    except Douban.DoesNotExist:
-        raise Http404("Douban does not exist")
-    return render(request, 'detail.html', {'detail': p, 'p_start': p_start, 'p_end': p_end})
+    return render(request, 'detail.html', {'p_start': p_start, 'p_end': p_end})
 
 
 def next_detail(request):
@@ -50,11 +40,7 @@ def next_detail(request):
         if request.POST['action'] == 'previous':
             p_start = page - 20
             p_end = page
-    try:
-        p = Douban.objects.all()
-    except Douban.DoesNotExist:
-        raise Http404("Douban does not exist")
-    return render(request, 'detail.html', {'detail': p, 'p_start': p_start, 'p_end': p_end})
+    return render(request, 'detail.html', {'p_start': p_start, 'p_end': p_end})
 
 
 def movie_form(request):

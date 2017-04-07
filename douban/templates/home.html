@@ -29,8 +29,8 @@
 {% endfor %}
 </ul>
 
-{% if detail_list %}
-    Number of athletes: {{ detail_list|length }}
+{% if douban_obj %}
+    Number of athletes: {{ douban_obj|length }}
 {% elif athlete_in_locker_room_list %}
     Athletes should be out of the locker room soon!
 {% else %}

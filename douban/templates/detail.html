@@ -7,7 +7,7 @@
 </head>
 <body>
 {#<ul>#}
-{#    {% for e in detail %}#}
+{#    {% for e in douban_obj %}#}
 {#    <li>{{ e.title }}</li>#}
 {#        <p>{{ e.movie_id }}</p>#}
 {#        <p>{{ e.rate }}</p>#}
@@ -36,7 +36,7 @@
     Page not found.
 {% endif %}
 
-{% for e in detail %}
+{% for e in douban_obj %}
         {% if p_start < forloop.counter and forloop.counter <= p_end %}
           <tr>
               <td>{{ forloop.counter }}</td>
@@ -72,10 +72,10 @@
 {% if p_start != 0 %}
 <a href="/douban/detail/{{ p_start }}">Previous</a>
 {% endif %}
-{% for n in 1|t_range:detail %}
+{% for n in 1|t_range:douban_obj %}
  <a href="/douban/detail/{% widthratio n 1 20 %}">{{ n }}</a>
 {% endfor %}
-{% if p_end <= detail|length %}
+{% if p_end <= douban_obj|length %}
 <a href="/douban/detail/{{ p_end|add:20 }}">Next</a>
 {% endif %}
 </body>
