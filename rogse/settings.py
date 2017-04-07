@@ -141,6 +141,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = '/var/www/rogse/static'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -155,3 +157,25 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 EMAIL_HOST = get_secret('EMAIL_HOST')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
+
+# Django debug toolbar
+try:
+    import debug_toolbar
+    from debug_toolbar import settings as debug_toolbar_settings
+except ImportError:
+    pass
+else:
+    if DEBUG:
+        INSTALLED_APPS += [
+            'debug_toolbar',
+        ]
+        MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+        INTERNAL_IPS = ('127.0.0.1',)
+        debug_toolbar_settings.CONFIG_DEFAULTS['JQUERY_URL'] = '/static/bootstrap/js/jquery-3.2.0.min.js'
+
+
+def show_toolbar(request):
+    return True
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+}  # Django debug toolbar

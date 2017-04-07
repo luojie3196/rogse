@@ -30,6 +30,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ['name', 'tagline']
 
 
+@admin.register(models.Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'status']
     ordering = ['title']
@@ -50,7 +51,6 @@ def export_as_json(modeladmin, request, queryset):
 admin.site.register(models.Author, AuthorAdmin)
 admin.site.register(models.Entry, EntryAdmin)
 admin.site.register(models.Blog, BlogAdmin)
-admin.site.register(models.Article, ArticleAdmin)
 # admin.site.add_action(export_as_json, 'export_selected')  # global action
 
 # Globally disable delete selected
