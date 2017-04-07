@@ -12,6 +12,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from douban.commons import *
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -267,4 +268,14 @@ def views_page(request):
 
 
 def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        validate_code = random_code(6)
+        send_mail(
+            'Password Validate Code',
+            'Validate Code: %s' % validate_code,
+            'from@example.com',
+            [email],
+            fail_silently=False,
+        )
     return render(request, 'forgot_password.html')

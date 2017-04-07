@@ -6,6 +6,7 @@ from django.http import FileResponse, HttpResponse
 import xlwt
 import time
 from io import BytesIO
+import random
 
 M_TYPES = ['爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典',
            '悬疑', '青春', '犯罪', '惊悚', '文艺', '搞笑', '纪录片',
@@ -412,3 +413,15 @@ def generate_years_data(movie_data):
         year_name.append(k)
         year_num.append(v)
     return year_data, year_name, year_num
+
+
+def random_code(num):
+    n = 0
+    code = ''
+    while n <= num:
+        if n != random.randint(0, num):
+            code += chr(random.randint(65, 90))
+        else:
+            code += str(random.randint(0, 9))
+        n += 1
+    return code

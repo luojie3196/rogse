@@ -47,7 +47,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/douban/">Dashboard</a></li>
           {% if user.is_authenticated %}
-              <li><a href="/douban/settings/">{{ user }}</a></li>
+              <li><a href="/douban/settings/">{{ user.email }}</a></li>
               <li><a href="/douban/logout/">Sign Out</a></li>
           {% else %}
               <li><a href="/douban/login/">Sign In</a></li>
