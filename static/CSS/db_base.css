@@ -1,3 +1,9 @@
 a.a-link {
     text-decoration: none;
 }
+
+thead tr th {
+    background-color: #f9f2f4;
+    text-transform: capitalize;
+    font-size: medium;
+}
