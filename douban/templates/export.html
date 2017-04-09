@@ -35,7 +35,7 @@ Number of rows:
 <table class="table table-hover">
   <thead>
     <tr>
-      <th width="5%"><span><input type="checkbox" id="action-toggle"></span></th>
+      <th width="5%"><span><input type="checkbox" id="SelectAll" onclick="selectAll();"></span></th>
         {% if sort_order %}
             <th width="20%"><a class="a-link" href="?sortBy=1">Title</a></th>
             <th width="5%"><a class="a-link" href="?sortBy=2">Rate</a></th>
@@ -58,7 +58,7 @@ Number of rows:
   <tbody>
     {% for movie in movies %}
     <tr>
-          <td class="action-checkbox"><input class="action-select" name="_selected_action" type="checkbox"></td>
+          <td><input type="checkbox" class="subcheck" onclick="setSelectAll();"></td>
           <td><a href="{{ movie.url }}" target="_blank">{{ movie.title }}</a></td>
           <td>{{ movie.rate }}</td>
           <td>{{ movie.director }}</td>
