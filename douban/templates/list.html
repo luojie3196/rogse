@@ -5,37 +5,37 @@
     <title>movies</title>
 </head>
 <body>
-<table width="80%" border="1" cellpadding="0" cellspacing="0" >
-  <tr>
-      <th width="5%" scope="col">No.</th>
-      <th width="10%" scope="col">Title</th>
-      <th width="5%" scope="col">Rate</th>
-      <th width="10%" scope="col">Director</th>
-      <th width="20%" scope="col">Protagonist</th>
-      <th width="10%" scope="col">Url</th>
-      <th width="10%" scope="col">Region</th>
-      <th width="10%" scope="col">Language</th>
-      <th width="10%" scope="col">Release time</th>
-      <th width="10%" scope="col">Run Time</th>
-{#      <th width="10%" scope="col">Summary</th>#}
-  </tr>
+<table width="80%" border="1" cellpadding="0" cellspacing="0">
+    <tr>
+        <th width="5%" scope="col">No.</th>
+        <th width="10%" scope="col">Title</th>
+        <th width="5%" scope="col">Rate</th>
+        <th width="10%" scope="col">Director</th>
+        <th width="20%" scope="col">Protagonist</th>
+        <th width="10%" scope="col">Url</th>
+        <th width="10%" scope="col">Region</th>
+        <th width="10%" scope="col">Language</th>
+        <th width="10%" scope="col">Release time</th>
+        <th width="10%" scope="col">Run Time</th>
+        {#      <th width="10%" scope="col">Summary</th>#}
+    </tr>
 
-{% for movie in movies %}
-          <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ movie.title }}</td>
-              <td>{{ movie.rate }}</td>
-              <td>{{ movie.director }}</td>
-              <td>{{ movie.protagonist }}</td>
-              <td><a href="{{ movie.url }}" target="_blank">{{ movie.url }}</a></td>
-              <td>{{ movie.region }}</td>
-              <td>{{ movie.language }}</td>
-              <td>{{ movie.release_time }}</td>
-              <td>{{ movie.run_time }}</td>
-{#              <td>{{ e.summary }}</td>#}
-          </tr>
-{#            <img src="{{ e.cover }}"/>#}
-{% endfor %}
+    {% for movie in movies %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.rate }}</td>
+            <td>{{ movie.director }}</td>
+            <td>{{ movie.protagonist }}</td>
+            <td><a href="{{ movie.url }}" target="_blank">{{ movie.url }}</a></td>
+            <td>{{ movie.region }}</td>
+            <td>{{ movie.language }}</td>
+            <td>{{ movie.release_time }}</td>
+            <td>{{ movie.run_time }}</td>
+            {#              <td>{{ e.summary }}</td>#}
+        </tr>
+        {#            <img src="{{ e.cover }}"/>#}
+    {% endfor %}
 </table>
 
 <div class="pagination">

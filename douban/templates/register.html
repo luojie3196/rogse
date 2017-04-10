@@ -2,73 +2,74 @@
 {% load filters %}
 
 {% block title %}
-Register for Douban
+    Register for Douban
 {% endblock %}
 
 {% block page-header-title %}Register{% endblock %}
 
 
 {% block page-header %}
-{% if status == '0' %}
-<ul class="messagelist">
-  <li class="success" style="font-size: large">Register successful, please <a href="{% url "login_page" %}">Sign In.</a></li>
-</ul>
-{% else %}
-<form class="form-horizontal" action="{% url 'register' %}" method="post">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="inputName3" class="col-sm-2 control-label">Username</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" name="username" placeholder="Username">
-      <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'username' }}</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" name="password" placeholder="Password">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Confirm password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" name="password2" placeholder="Confirm password">
-      <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'password2' }}</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control" name="email" placeholder="Email">
-       <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'email' }}</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputName3" class="col-sm-2 control-label">Real name</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" name="real_name" placeholder="Real name">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputName3" class="col-sm-2 control-label">Sex</label>
-    <div class="col-sm-2">
-      <select class="form-control" name="sex">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputNumber3" class="col-sm-2 control-label">Phone number</label>
-    <div class="col-sm-4">
-      <input type="tel" class="form-control" name="phone_num" placeholder="phone number">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-4">
-      <button type="submit" class="btn btn-default">Register</button>
-    </div>
-  </div>
-</form>
-{% endif %}
+    {% if status == '0' %}
+        <ul class="messagelist">
+            <li class="success" style="font-size: large">Register successful, please <a href="{% url "login_page" %}">Sign
+                In.</a></li>
+        </ul>
+    {% else %}
+        <form class="form-horizontal" action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Username</label>
+                <div class="col-sm-4">
+                    <input id="inputName" type="text" class="form-control" name="username" placeholder="Username">
+                    <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'username' }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-4">
+                    <input id="inputPassword" type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword2" class="col-sm-2 control-label">Confirm password</label>
+                <div class="col-sm-4">
+                    <input id="inputPassword2" type="password" class="form-control" name="password2" placeholder="Confirm password">
+                    <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'password2' }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-4">
+                    <input id="inputEmail" type="email" class="form-control" name="email" placeholder="Email">
+                    <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'email' }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputRealName" class="col-sm-2 control-label">Real name</label>
+                <div class="col-sm-4">
+                    <input id="inputRealName" type="text" class="form-control" name="real_name" placeholder="Real name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Sex</label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="sex">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPhoneNum" class="col-sm-2 control-label">Phone number</label>
+                <div class="col-sm-4">
+                    <input id="inputPhoneNum" type="tel" class="form-control" name="phone_num" placeholder="phone number">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn btn-default">Register</button>
+                </div>
+            </div>
+        </form>
+    {% endif %}
 {% endblock %}

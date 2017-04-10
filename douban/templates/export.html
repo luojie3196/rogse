@@ -1,83 +1,87 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Export for Douban
+    Export for Douban
 {% endblock %}
 
 {% block page-header-title %}Export {% endblock %}
 
 {% block page-header %}
-<form class="form-horizontal" action="{% url "export_page" %}" method="get">
-Number of rows:
-<select name="rows_num" class="">
-    {% if rows_num %}
-  <option selected="selected">{{ rows_num }}</option>
-    {% endif %}
-{% for row in rows_num_list %}
-  <option>{{ row }}</option>
-{% endfor %}
-</select>
-&nbsp;&nbsp;&nbsp;
-<button type="submit" class="btn btn-primary">Go</button>
-</form>
+    <form class="form-horizontal" action="{% url "export_page" %}" method="get">
+        Number of rows:
+        <select name="rows_num" class="">
+            {% if rows_num %}
+                <option selected="selected">{{ rows_num }}</option>
+            {% endif %}
+            {% for row in rows_num_list %}
+                <option>{{ row }}</option>
+            {% endfor %}
+        </select>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary">Go</button>
+    </form>
 {% endblock %}
 
 {% block sub-header-title %}
-<em><small>
-    export({{ movies.start_index}}-{{movies.end_index}} of {{total }})
-    <div style="float:right">
-        <a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}" class="btn btn-warning" target="_blank">Export</a>
-    </div>
-</small></em>
+    <em>
+        <small>
+            export({{ movies.start_index }}-{{ movies.end_index }} of {{ total }})
+            <div style="float:right">
+                <a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}" class="btn btn-warning"
+                   target="_blank">Export</a>
+            </div>
+        </small>
+    </em>
 {% endblock %}
 
 {% block sub-header %}
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th width="5%"><span><input type="checkbox" id="SelectAll" onclick="selectAll();"></span></th>
-        {% if sort_order %}
-            <th width="20%"><a class="a-link" href="?sortBy=1">Title</a></th>
-            <th width="5%"><a class="a-link" href="?sortBy=2">Rate</a></th>
-            <th width="20%"><a class="a-link" href="?sortBy=3">Director</a></th>
-            <th width="20%"><a class="a-link" href="?sortBy=4">Region</a></th>
-            <th width="10%"><a class="a-link" href="?sortBy=5">Language</a></th>
-            <th width="10%"><a class="a-link" href="?sortBy=6">Date</a></th>
-            <th width="10%"><a class="a-link" href="?sortBy=7">Duration</a></th>
-        {% else %}
-            <th width="20%"><a class="a-link" href="?sortBy=-1">Title</a></th>
-            <th width="5%"><a class="a-link" href="?sortBy=-2">Rate</a></th>
-            <th width="20%"><a class="a-link" href="?sortBy=-3">Director</a></th>
-            <th width="20%"><a class="a-link" href="?sortBy=-4">Region</a></th>
-            <th width="10%"><a class="a-link" href="?sortBy=-5">Language</a></th>
-            <th width="10%"><a class="a-link" href="?sortBy=-6">Date</a></th>
-            <th width="10%"><a class="a-link" href="?sortBy=-7">Duration</a></th>
-        {% endif %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for movie in movies %}
-    <tr>
-          <td><input type="checkbox" class="subcheck" onclick="setSelectAll();"></td>
-          <td><a href="{{ movie.url }}" target="_blank">{{ movie.title }}</a></td>
-          <td>{{ movie.rate }}</td>
-          <td>{{ movie.director }}</td>
-          <td>{{ movie.region }}</td>
-          <td>{{ movie.language }}</td>
-          <td>{{ movie.release_time }}</td>
-          <td>{{ movie.run_time }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th width="5%"><span><input type="checkbox" id="SelectAll" onclick="selectAll();"></span></th>
+            {% if sort_order %}
+                <th width="20%"><a class="a-link" href="?sortBy=1">Title</a></th>
+                <th width="5%"><a class="a-link" href="?sortBy=2">Rate</a></th>
+                <th width="20%"><a class="a-link" href="?sortBy=3">Director</a></th>
+                <th width="20%"><a class="a-link" href="?sortBy=4">Region</a></th>
+                <th width="10%"><a class="a-link" href="?sortBy=5">Language</a></th>
+                <th width="10%"><a class="a-link" href="?sortBy=6">Date</a></th>
+                <th width="10%"><a class="a-link" href="?sortBy=7">Duration</a></th>
+            {% else %}
+                <th width="20%"><a class="a-link" href="?sortBy=-1">Title</a></th>
+                <th width="5%"><a class="a-link" href="?sortBy=-2">Rate</a></th>
+                <th width="20%"><a class="a-link" href="?sortBy=-3">Director</a></th>
+                <th width="20%"><a class="a-link" href="?sortBy=-4">Region</a></th>
+                <th width="10%"><a class="a-link" href="?sortBy=-5">Language</a></th>
+                <th width="10%"><a class="a-link" href="?sortBy=-6">Date</a></th>
+                <th width="10%"><a class="a-link" href="?sortBy=-7">Duration</a></th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td><input type="checkbox" class="subcheck" onclick="setSelectAll();"></td>
+                <td><a href="{{ movie.url }}" target="_blank">{{ movie.title }}</a></td>
+                <td>{{ movie.rate }}</td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.region }}</td>
+                <td>{{ movie.language }}</td>
+                <td>{{ movie.release_time }}</td>
+                <td>{{ movie.run_time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<div class="pagination">
+    <div class="pagination">
     <span class="label label-default">
         {% if movies.has_previous %}
             {% if rows_num %}
-            <a href="?rows_num={{ rows_num }}&page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+                <a href="?rows_num={{ rows_num }}&page={{ movies.previous_page_number }}"
+                   class="glyphicon glyphicon-triangle-left"></a>
             {% else %}
-            <a href="?page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+                <a href="?page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
             {% endif %}
         {% endif %}
 
@@ -87,11 +91,12 @@ Number of rows:
 
         {% if movies.has_next %}
             {% if rows_num %}
-            <a href="?rows_num={{ rows_num }}&page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+                <a href="?rows_num={{ rows_num }}&page={{ movies.next_page_number }}"
+                   class="glyphicon glyphicon-triangle-right"></a>
             {% else %}
-            <a href="?page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+                <a href="?page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right"></a>
             {% endif %}
         {% endif %}
     </span>
-</div>
+    </div>
 {% endblock %}

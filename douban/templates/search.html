@@ -1,59 +1,62 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Search for Douban
+    Search for Douban
 {% endblock %}
 
 {% block sub-header-title %}
-<em><small>
-    result({{ movies.start_index}}-{{movies.end_index}} of {{total }})
-</small></em>
+    <em>
+        <small>
+            result({{ movies.start_index }}-{{ movies.end_index }} of {{ total }})
+        </small>
+    </em>
 {% endblock %}
 
 {% block sub-header %}
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th width="5%">#</th>
-        {% if sort_order %}
-            <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=1">Title</a></th>
-            <th width="5%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=2">Rate</a></th>
-            <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=3">Director</a></th>
-            <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=4">Region</a></th>
-            <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=5">Language</a></th>
-            <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=6">Date</a></th>
-            <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=7">Duration</a></th>
-        {% else %}
-            <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-1">Title</a></th>
-            <th width="5%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-2">Rate</a></th>
-            <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-3">Director</a></th>
-            <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-4">Region</a></th>
-            <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-5">Language</a></th>
-            <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-6">Date</a></th>
-            <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-7">Duration</a></th>
-        {% endif %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for movie in movies %}
-    <tr>
-          <td>{{ forloop.counter }}</td>
-          <td><a href="{{ movie.url }}" target="_blank">{{ movie.title }}</a></td>
-          <td>{{ movie.rate }}</td>
-          <td>{{ movie.director }}</td>
-          <td>{{ movie.region }}</td>
-          <td>{{ movie.language }}</td>
-          <td>{{ movie.release_time }}</td>
-          <td>{{ movie.run_time }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th width="5%">#</th>
+            {% if sort_order %}
+                <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=1">Title</a></th>
+                <th width="5%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=2">Rate</a></th>
+                <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=3">Director</a></th>
+                <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=4">Region</a></th>
+                <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=5">Language</a></th>
+                <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=6">Date</a></th>
+                <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=7">Duration</a></th>
+            {% else %}
+                <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-1">Title</a></th>
+                <th width="5%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-2">Rate</a></th>
+                <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-3">Director</a></th>
+                <th width="20%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-4">Region</a></th>
+                <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-5">Language</a></th>
+                <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-6">Date</a></th>
+                <th width="10%"><a class="a-link" href="?keywords={{ keywords }}&sortBy=-7">Duration</a></th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{ movie.url }}" target="_blank">{{ movie.title }}</a></td>
+                <td>{{ movie.rate }}</td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.region }}</td>
+                <td>{{ movie.language }}</td>
+                <td>{{ movie.release_time }}</td>
+                <td>{{ movie.run_time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<div class="pagination">
+    <div class="pagination">
     <span class="label label-default">
         {% if movies.has_previous %}
-            <a href="?title={{ title }}&page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+            <a href="?title={{ title }}&page={{ movies.previous_page_number }}"
+               class="glyphicon glyphicon-triangle-left"></a>
         {% endif %}
 
         <span class="current">
@@ -61,8 +64,9 @@ Search for Douban
         </span>
 
         {% if movies.has_next %}
-            <a href="?keywords={{ keywords }}&page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+            <a href="?keywords={{ keywords }}&page={{ movies.next_page_number }}"
+               class="glyphicon glyphicon-triangle-right"></a>
         {% endif %}
     </span>
-</div>
+    </div>
 {% endblock %}

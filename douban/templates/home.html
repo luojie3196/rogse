@@ -22,11 +22,11 @@
 <p>{{ '1234565434656473361726'|cut:'3' }}</p>
 
 <ul>
-{% for athlete in athlete_list %}
-    <li>{{ athlete.name }}</li>
-{% empty %}
-    <li>Sorry, no athletes in this list.</li>
-{% endfor %}
+    {% for athlete in athlete_list %}
+        <li>{{ athlete.name }}</li>
+    {% empty %}
+        <li>Sorry, no athletes in this list.</li>
+    {% endfor %}
 </ul>
 
 {% if douban_obj %}

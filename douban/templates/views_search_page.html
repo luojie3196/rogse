@@ -1,84 +1,87 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Views search for Douban
+    Views search for Douban
 {% endblock %}
 
 {% block page-header-title %}Views search {% endblock %}
 
 {% block page-header %}
-<form class="form-horizontal" action="{% url "views_page" %}" method="get">
-<div style="float:right">
-    <div style="float:left">
-        Type:
-        <select name="m_type" class="">
-          <option></option>
-          {% for m_type in m_types %}
-           <option>{{ m_type }}</option>
-          {% endfor %}
-        </select>
-    </div>
-    <div style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
-    <div style="float:left">
-        Region:
-        <select name="region" class="">
-          <option></option>
-          {% for region in regions %}
-           <option>{{ region }}</option>
-          {% endfor %}
-        </select>
-    </div>
-    <div style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
-</div>
-Keyword: <input type="text" name="keywords">
-<button type="submit" class="btn btn-primary">Go</button>
-</form>
+    <form class="form-horizontal" action="{% url "views_page" %}" method="get">
+        <div style="float:right">
+            <div style="float:left">
+                Type:
+                <select name="m_type" class="">
+                    <option></option>
+                    {% for m_type in m_types %}
+                        <option>{{ m_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
+            <div style="float:left">
+                Region:
+                <select name="region" class="">
+                    <option></option>
+                    {% for region in regions %}
+                        <option>{{ region }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
+        </div>
+        Keyword: <input type="text" name="keywords">
+        <button type="submit" class="btn btn-primary">Go</button>
+    </form>
 {% endblock %}
 
 {% block sub-header-title %}
-<em><small>
-    result({{ movies.start_index}}-{{movies.end_index}} of {{total }})
-</small></em>
+    <em>
+        <small>
+            result({{ movies.start_index }}-{{ movies.end_index }} of {{ total }})
+        </small>
+    </em>
 {% endblock %}
 
 {% block sub-header %}
-{% for movie in movies %}
-<p class="ul"></p>
-<table width="100%" class="">
-<tbody>
-    <tr class="item">
-        <td width="100" valign="top">
-            <a class="nbg" href="{{ movie.url }}" >
-                <img src="{{ movie.cover }}" height="168" width="120" class=""/>
-            </a>
-        </td>
-        <td>&nbsp;&nbsp;</td>
-        <td valign="top">
-            <div class="p12">
-                <h4 class="pl"><a href="{{ movie.url }}" class="">{{ movie.title }}</a></h4>
-                <h6 class="pl">导演: {{ movie.director }}</h6>
-                <h6 class="pl">编剧: {{ movie.scriptwriter }}</h6>
-                <h6 class="pl">主演: {{ movie.protagonist }}</h6>
-                <h6 class="pl">类型: {{ movie.m_type }}</h6>
-                <h6 class="pl">地区: {{ movie.region }}</h6>
-                <h6 class="pl">语言: {{ movie.language }}</h6>
-                <h6 class="pl">上映时间: {{ movie.release_time }}</h6>
-                <h6 class="pl">片长: {{ movie.run_time }}</h6>
-                <div class="star clearfix">
-                        <span class="allstar40"></span>
-                        <span class="rating_nums">{{ movie.rate }}</span>
-                        <span class="pl">({{ movie.comment_num }}人评价)</span>
-                </div>
-            </div>
-        </td>
-    </tr>
-</tbody>
-</table>
-{% endfor %}
-<div class="pagination">
+    {% for movie in movies %}
+        <p class="ul"></p>
+        <table width="100%" class="">
+            <tbody>
+            <tr class="item">
+                <td width="100" valign="top">
+                    <a class="nbg" href="{{ movie.url }}">
+                        <img src="{{ movie.cover }}" height="168" width="120" class=""/>
+                    </a>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td valign="top">
+                    <div class="p12">
+                        <h4 class="pl"><a href="{{ movie.url }}" class="">{{ movie.title }}</a></h4>
+                        <h6 class="pl">导演: {{ movie.director }}</h6>
+                        <h6 class="pl">编剧: {{ movie.scriptwriter }}</h6>
+                        <h6 class="pl">主演: {{ movie.protagonist }}</h6>
+                        <h6 class="pl">类型: {{ movie.m_type }}</h6>
+                        <h6 class="pl">地区: {{ movie.region }}</h6>
+                        <h6 class="pl">语言: {{ movie.language }}</h6>
+                        <h6 class="pl">上映时间: {{ movie.release_time }}</h6>
+                        <h6 class="pl">片长: {{ movie.run_time }}</h6>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>
+                            <span class="rating_nums">{{ movie.rate }}</span>
+                            <span class="pl">({{ movie.comment_num }}人评价)</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    {% endfor %}
+    <div class="pagination">
     <span class="label label-default">
         {% if movies.has_previous %}
-            <a href="?m_type={{ m_type }}&region={{ region }}&keywords={{ keywords }}&page={{ movies.previous_page_number }}" class="glyphicon glyphicon-triangle-left"></a>
+            <a href="?m_type={{ m_type }}&region={{ region }}&keywords={{ keywords }}&page={{ movies.previous_page_number }}"
+               class="glyphicon glyphicon-triangle-left"></a>
         {% endif %}
 
         <span class="current">
@@ -86,8 +89,9 @@ Keyword: <input type="text" name="keywords">
         </span>
 
         {% if movies.has_next %}
-            <a href="?m_type={{ m_type }}&region={{ region }}&keywords={{ keywords }}&page={{ movies.next_page_number }}" class="glyphicon glyphicon-triangle-right" ></a>
+            <a href="?m_type={{ m_type }}&region={{ region }}&keywords={{ keywords }}&page={{ movies.next_page_number }}"
+               class="glyphicon glyphicon-triangle-right"></a>
         {% endif %}
     </span>
-</div>
+    </div>
 {% endblock %}

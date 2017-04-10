@@ -18,41 +18,41 @@
 {#    {% endfor %}#}
 {#</ul>#}
 {% if p_start >= 0 %}
-  <table width="80%" border="1" cellpadding="0" cellspacing="0" bgcolor="#adff2f">
-  <tr>
-      <th width="5%" scope="col">No.</th>
-      <th width="10%" scope="col">Title</th>
-      <th width="5%" scope="col">Rate</th>
-      <th width="10%" scope="col">Director</th>
-      <th width="20%" scope="col">Protagonist</th>
-      <th width="10%" scope="col">Url</th>
-      <th width="10%" scope="col">Region</th>
-      <th width="10%" scope="col">Language</th>
-      <th width="10%" scope="col">Release time</th>
-      <th width="10%" scope="col">Run Time</th>
-{#      <th width="10%" scope="col">Summary</th>#}
-  </tr>
+    <table width="80%" border="1" cellpadding="0" cellspacing="0" bgcolor="#adff2f">
+    <tr>
+        <th width="5%" scope="col">No.</th>
+        <th width="10%" scope="col">Title</th>
+        <th width="5%" scope="col">Rate</th>
+        <th width="10%" scope="col">Director</th>
+        <th width="20%" scope="col">Protagonist</th>
+        <th width="10%" scope="col">Url</th>
+        <th width="10%" scope="col">Region</th>
+        <th width="10%" scope="col">Language</th>
+        <th width="10%" scope="col">Release time</th>
+        <th width="10%" scope="col">Run Time</th>
+        {#      <th width="10%" scope="col">Summary</th>#}
+    </tr>
 {% else %}
     Page not found.
 {% endif %}
 
 {% for e in douban_obj %}
-        {% if p_start < forloop.counter and forloop.counter <= p_end %}
-          <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ e.title }}</td>
-              <td>{{ e.rate }}</td>
-              <td>{{ e.director }}</td>
-              <td>{{ e.protagonist }}</td>
-              <td><a href="{{ e.url }}" target="_blank">{{ e.url }}</a></td>
-              <td>{{ e.region }}</td>
-              <td>{{ e.language }}</td>
-              <td>{{ e.release_time }}</td>
-              <td>{{ e.run_time }}</td>
-{#              <td>{{ e.summary }}</td>#}
-          </tr>
-{#            <img src="{{ e.cover }}"/>#}
-        {% endif %}
+    {% if p_start < forloop.counter and forloop.counter <= p_end %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ e.title }}</td>
+            <td>{{ e.rate }}</td>
+            <td>{{ e.director }}</td>
+            <td>{{ e.protagonist }}</td>
+            <td><a href="{{ e.url }}" target="_blank">{{ e.url }}</a></td>
+            <td>{{ e.region }}</td>
+            <td>{{ e.language }}</td>
+            <td>{{ e.release_time }}</td>
+            <td>{{ e.run_time }}</td>
+            {#              <td>{{ e.summary }}</td>#}
+        </tr>
+        {#            <img src="{{ e.cover }}"/>#}
+    {% endif %}
 {% endfor %}
 </table>
 {#{% if p_start != 0 %}#}
@@ -70,13 +70,13 @@
 {#    <input type="submit" value="Next" />#}
 {#</form>#}
 {% if p_start != 0 %}
-<a href="/douban/detail/{{ p_start }}">Previous</a>
+    <a href="/douban/detail/{{ p_start }}">Previous</a>
 {% endif %}
 {% for n in 1|t_range:douban_obj %}
- <a href="/douban/detail/{% widthratio n 1 20 %}">{{ n }}</a>
+    <a href="/douban/detail/{% widthratio n 1 20 %}">{{ n }}</a>
 {% endfor %}
 {% if p_end <= douban_obj|length %}
-<a href="/douban/detail/{{ p_end|add:20 }}">Next</a>
+    <a href="/douban/detail/{{ p_end|add:20 }}">Next</a>
 {% endif %}
 </body>
 </html>
