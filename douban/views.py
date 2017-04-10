@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 import json
-from douban.models import Douban
+from douban.models import Douban, UserProfile
 from douban.forms import DoubanForm, UserProfileCreationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -219,6 +219,17 @@ def export_page(request):
 
 @login_required
 def settings_page(request):
+    user_data = {}
+    if 'status' in request.GET:
+        status = request.GET['status']
+        return render(request, 'settings.html', {'status': status})
+    if request.method == "POST":
+        user_data['email'] = request.POST['email']
+        user_data['real_name'] = request.POST['real_name']
+        user_data['sex'] = request.POST['sex']
+        user_data['phone_num'] = request.POST['phone_num']
+        UserProfile.objects.filter(username=request.POST['username']).update(**user_data)
+        return HttpResponseRedirect('/douban/settings/?status=0')
     return render(request, 'settings.html')
 
 

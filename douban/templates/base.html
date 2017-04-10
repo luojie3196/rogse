@@ -54,7 +54,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url "dashboard" %}">Dashboard</a></li>
                 {% if user.is_authenticated %}
-                    <li><a class="user-info" href="{% url "settings_page" %}" title="View profile">{{ user.email }}</a></li>
+                    <li><a class="user-info" href="{% url "settings_page" %}" title="View profile">{{ user.email }}</a>
+                    </li>
                     <li><a href="{% url "logout_view" %}">Sign Out</a></li>
                 {% else %}
                     <li><a href="{% url "login_page" %}">Sign In</a></li>
@@ -71,16 +72,19 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="{% url "dashboard" %}#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="{% url "views_page" %}">Views</a></li>
-                <li><a href="{% url "reports_page" %}">Reports</a></li>
-                <li><a href="{% url "analytics_page" %}">Analytics</a></li>
-                <li><a href="{% url "export_page" %}">Export</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a class="user-settings" href="{% url "settings_page" %}">Profiles</a></li>
-            </ul>
+            {% block nav-link %}
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="{% url "dashboard" %}#">Overview <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li><a href="{% url "views_page" %}">Views</a></li>
+                    <li><a href="{% url "reports_page" %}">Reports</a></li>
+                    <li><a href="{% url "analytics_page" %}">Analytics</a></li>
+                    <li><a href="{% url "export_page" %}">Export</a></li>
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li><a class="user-settings" href="{% url "settings_page" %}">Profiles</a></li>
+                </ul>
+            {% endblock %}
             {% if user.is_admin %}
                 <ul class="nav nav-sidebar">
                     <li><a href="#">Nav item again</a></li>

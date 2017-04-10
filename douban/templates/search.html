@@ -3,7 +3,19 @@
 {% block title %}
     Search for Douban
 {% endblock %}
-
+{% block nav-link %}
+    <ul class="nav nav-sidebar">
+        <li class="active"><a href="{% url "dashboard" %}#">Overview <span class="sr-only">(current)</span></a>
+        </li>
+        <li><a href="{% url "views_page" %}">Views</a></li>
+        <li><a href="{% url "reports_page" %}">Reports</a></li>
+        <li><a href="{% url "analytics_page" %}">Analytics</a></li>
+        <li><a href="{% url "export_page" %}">Export</a></li>
+    </ul>
+    <ul class="nav nav-sidebar">
+        <li><a class="user-settings" href="{% url "settings_page" %}">Profiles</a></li>
+    </ul>
+{% endblock %}
 {% block sub-header-title %}
     <em>
         <small>
