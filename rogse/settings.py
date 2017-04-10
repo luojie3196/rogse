@@ -174,9 +174,9 @@ else:
         INTERNAL_IPS = ('127.0.0.1',)
         debug_toolbar_settings.CONFIG_DEFAULTS['JQUERY_URL'] = '/static/bootstrap/js/jquery-3.2.0.min.js'
 
-
-def show_toolbar(request):
-    return True
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
-}  # Django debug toolbar
+        def show_toolbar(request):
+            return True
+        DEBUG_TOOLBAR_CONFIG = {
+            "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+        }
+# Django debug toolbar

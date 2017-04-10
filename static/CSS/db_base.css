@@ -7,3 +7,7 @@ thead tr th {
     text-transform: capitalize;
     font-size: medium;
 }
+
+.page-header {
+    color: #DB7100;
+}
