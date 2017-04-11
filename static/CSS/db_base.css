@@ -11,3 +11,8 @@ thead tr th {
 .page-header {
     color: #DB7100;
 }
+
+div.errors-info {
+    color: #F00;
+    font-size: 8px;
+}

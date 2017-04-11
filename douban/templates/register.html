@@ -17,53 +17,79 @@
     {% else %}
         <form class="form-horizontal" action="{% url 'register' %}" method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="inputName" class="col-sm-2 control-label">Username</label>
+            <div class="form-group {% if form.username.errors %} has-error {% endif %}">
+                <label for="id_username" class="col-sm-2 control-label">Username:</label>
                 <div class="col-sm-4">
-                    <input id="inputName" type="text" class="form-control" name="username" placeholder="Username">
-                    <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'username' }}</div>
+                    {{ form.username }}
+                </div>
+                {% if form.username.errors %}
+                  {% for error in form.username.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+                <label for="id_password" class="col-sm-2 control-label">Password:</label>
+                <div class="col-sm-4">
+                    {{ form.password }}
+                </div>
+                {% if form.password.errors %}
+                  {% for error in form.password.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
+                <label for="id_password2" class="col-sm-2 control-label">Confirm password:</label>
+                <div class="col-sm-4">
+                    {{ form.password2 }}
+                </div>
+                {% if form.password2.errors %}
+                  {% for error in form.password2.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                <label for="id_email" class="col-sm-2 control-label">Email:</label>
+                <div class="col-sm-4">
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="errors-info">
+                        {% for error in form.email.errors %}
+                            {{ error|escape }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+            <div class="form-group {% if form.real_name.errors %} has-error {% endif %}">
+                <label for="id_real_name" class="col-sm-2 control-label">Real name:</label>
                 <div class="col-sm-4">
-                    <input id="inputPassword" type="password" class="form-control" name="password" placeholder="Password">
+                    {{ form.real_name }}
                 </div>
+                {% if form.real_name.errors %}
+                  {% for error in form.real_name.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endif %}
             </div>
             <div class="form-group">
-                <label for="inputPassword2" class="col-sm-2 control-label">Confirm password</label>
-                <div class="col-sm-4">
-                    <input id="inputPassword2" type="password" class="form-control" name="password2" placeholder="Confirm password">
-                    <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'password2' }}</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                <div class="col-sm-4">
-                    <input id="inputEmail" type="email" class="form-control" name="email" placeholder="Email">
-                    <div style="color:#F00;font-size:8px;">{{ forms.errors|t_dict:'email' }}</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputRealName" class="col-sm-2 control-label">Real name</label>
-                <div class="col-sm-4">
-                    <input id="inputRealName" type="text" class="form-control" name="real_name" placeholder="Real name">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Sex</label>
+                <label class="col-sm-2 control-label">Sex:</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="sex">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
+                    {{ form.sex }}
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputPhoneNum" class="col-sm-2 control-label">Phone number</label>
+            <div class="form-group {% if form.phone_num.errors %} has-error {% endif %}">
+                <label for="id_phone_num" class="col-sm-2 control-label">Phone number:</label>
                 <div class="col-sm-4">
-                    <input id="inputPhoneNum" type="tel" class="form-control" name="phone_num" placeholder="phone number">
+                    {{ form.phone_num }}
                 </div>
+                {% if form.phone_num.errors %}
+                  {% for error in form.phone_num.errors %}
+                      {{ error|escape }}
+                  {% endfor %}
+                {% endif %}
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-4">

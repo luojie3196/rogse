@@ -81,13 +81,13 @@ def register(request):
     form = UserProfileCreationForm()
     if 'status' in request.GET:
         status = request.GET['status']
-        return render(request, 'register.html', {'forms': form, 'status': status})
+        return render(request, 'register.html', locals())
     if request.method == "POST":
         form = UserProfileCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/douban/register/?status=0')
-    return render(request, 'register.html', {'forms': form})
+    return render(request, 'register.html', locals())
 
 
 @login_required
@@ -172,8 +172,10 @@ def export_page(request):
 @login_required
 def settings_page(request):
     user_data = {}
+    path = request.get_full_path()
     user_model = get_user_model()
     form = UserProfileChangeForm()
+    # print(dir(request.user))
     if 'status' in request.GET:
         status = request.GET['status']
         return render(request, 'settings.html', {'status': status})
@@ -184,7 +186,7 @@ def settings_page(request):
         user_data['phone_num'] = request.POST['phone_num']
         user_model.objects.filter(username=request.POST['username']).update(**user_data)
         return HttpResponseRedirect('/douban/settings/?status=0')
-    return render(request, 'settings.html', {'form': form})
+    return render(request, 'settings.html', locals())
 
 
 @login_required
