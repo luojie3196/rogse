@@ -5,11 +5,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 import json
-from douban.models import Douban, UserProfile
-from douban.forms import DoubanForm, UserProfileCreationForm
+from douban.models import Douban
+from douban.forms import DoubanForm, UserProfileCreationForm, UserProfileChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from douban.commons import *
 from django.core.mail import send_mail
@@ -20,49 +20,6 @@ from django.core.mail import send_mail
 def home(request):
     now = datetime.datetime.now()
     return render(request, 'home.html', {'now': now})
-
-
-def detail(request, page):
-    p_start = int(page) - 20
-    p_end = int(page)
-    return render(request, 'detail.html', {'p_start': p_start, 'p_end': p_end})
-
-
-def next_detail(request):
-    print(request.POST)
-    p_start = 0
-    p_end = 20
-    if request.method == 'POST':
-        page = int(request.POST['page'])
-        if request.POST['action'] == 'next':
-            p_start = page
-            p_end = page + 20
-        if request.POST['action'] == 'previous':
-            p_start = page - 20
-            p_end = page
-    return render(request, 'detail.html', {'p_start': p_start, 'p_end': p_end})
-
-
-def movie_form(request):
-    form = DoubanForm()
-    return render(request, 'movie_form.html', {'movie_form': form})
-
-
-def listing(request):
-    movie_list = Douban.objects.all()
-    paginator = Paginator(movie_list, 25)  # Show 25 movies per page
-
-    page = request.GET.get('page')
-    try:
-        movies = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        movies = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        movies = paginator.page(paginator.num_pages)
-
-    return render(request, 'list.html', {'movies': movies})
 
 
 @login_required
@@ -146,13 +103,8 @@ def analytics_page(request):
     type_name, type_num = generate_type_data(movie_obj)
     # regions = merge_to_list(p.region for p in movie_data)
     year_data, year_name, year_num = generate_years_data(movie_obj)
-    context = {'type_name': json.dumps(type_name),
-               'type_num': json.dumps(type_num),
-               'map_data': json.dumps(map_data),
-               'year_data': json.dumps(year_data),
-               'year_name': json.dumps(year_name),
-               'year_num': json.dumps(year_num)}
-    return render(request, 'analytics.html', context=context)
+
+    return render(request, 'analytics.html', context=locals())
 
 
 @login_required
@@ -220,6 +172,8 @@ def export_page(request):
 @login_required
 def settings_page(request):
     user_data = {}
+    user_model = get_user_model()
+    form = UserProfileChangeForm()
     if 'status' in request.GET:
         status = request.GET['status']
         return render(request, 'settings.html', {'status': status})
@@ -228,9 +182,9 @@ def settings_page(request):
         user_data['real_name'] = request.POST['real_name']
         user_data['sex'] = request.POST['sex']
         user_data['phone_num'] = request.POST['phone_num']
-        UserProfile.objects.filter(username=request.POST['username']).update(**user_data)
+        user_model.objects.filter(username=request.POST['username']).update(**user_data)
         return HttpResponseRedirect('/douban/settings/?status=0')
-    return render(request, 'settings.html')
+    return render(request, 'settings.html', {'form': form})
 
 
 @login_required

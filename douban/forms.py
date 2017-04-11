@@ -49,12 +49,14 @@ class UserProfileChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password = ReadOnlyPasswordHashField()
+    username = forms.CharField(min_length=5, max_length=15, required=True, disabled=True,
+                               label="User name", help_text="can't change login user name")
+    # password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = models.UserProfile
-        fields = ('username', 'email', 'password', 'real_name',
-                  'sex', 'phone_num', 'is_active', 'is_admin')
+        fields = ('username', 'email', 'real_name',
+                  'sex', 'phone_num')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
