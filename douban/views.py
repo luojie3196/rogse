@@ -195,12 +195,12 @@ def views_page(request):
         keywords = request.GET['keywords']
         region = request.GET['region']
     except KeyError:
-        movie_list = Douban.objects.all()
+        movie_list = Douban.objects.all().order_by('-rate')
         search_mode = False
     else:
         movie_list = Douban.objects.filter((Q(title__icontains=keywords) | Q(director__icontains=keywords) |
                                             Q(scriptwriter__icontains=keywords) | Q(protagonist__icontains=keywords)) &
-                                           Q(m_type__icontains=m_type) & Q(region__icontains=region))
+                                           Q(m_type__icontains=m_type) & Q(region__icontains=region)).order_by('-rate')
     # get m_type and region from douban objects
     '''
     m_types = merge_to_list(p.m_type for p in movie_list)
@@ -208,7 +208,6 @@ def views_page(request):
     define m_type and regon by code in commons.py
     '''
     paginator = Paginator(movie_list, 25)  # Show 25 movies per page
-
     page = request.GET.get('page')
     try:
         movies = paginator.page(page)

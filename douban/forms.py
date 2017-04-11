@@ -49,8 +49,17 @@ class UserProfileChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    username = forms.CharField(min_length=5, max_length=15, required=True, disabled=True,
-                               label="User name", help_text="can't change login user name")
+    username = forms.CharField(min_length=5, max_length=15, required=True,
+                               disabled=True, label="User name",
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(min_length=5, max_length=30, required=True, label="Email address",
+                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    real_name = forms.CharField(min_length=5, max_length=15, label="Real name",
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+    sex = forms.CharField(label="Sex", widget=forms.Select(choices=models.SEX_CHOICES,
+                                                           attrs={'class': 'form-control'}))
+    phone_num = forms.CharField(label='Phone number', min_length=5, max_length=15,
+                                widget=forms.EmailInput(attrs={'class': 'form-control'}))
     # password = ReadOnlyPasswordHashField()
 
     class Meta:
