@@ -23,3 +23,9 @@ function setSelectAll(){
         $("#SelectAll").prop("checked", true);
     }
 }
+$(document).ready(function() {
+    $('#rows_num_select').change(function () {
+        var p1 = $(this).children('option:selected').val();//selected的值
+        window.location.href = "?rows_num=" + p1 + "";//页面跳转并传参
+    })
+})

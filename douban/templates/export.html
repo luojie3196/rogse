@@ -18,22 +18,6 @@
 {% endblock %}
 {% block page-header-title %}Export {% endblock %}
 
-{% block page-header %}
-    <form class="form-horizontal" action="{% url "export_page" %}" method="get">
-        Number of rows:
-        <select name="rows_num" class="">
-            {% if rows_num %}
-                <option selected="selected">{{ rows_num }}</option>
-            {% endif %}
-            {% for row in rows_num_list %}
-                <option>{{ row }}</option>
-            {% endfor %}
-        </select>
-        &nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-primary">Go</button>
-    </form>
-{% endblock %}
-
 {% block sub-header-title %}
     <em>
         <small>
@@ -44,6 +28,17 @@
         <span class="xls-btn"></span>
         <span class="btn btn-link"><a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}"
                                       target="_blank">Export to Excel</a></span>
+    <span class="rows-num-select">
+        Number of rows:
+        <select name="rows_num" id="rows_num_select">
+            {% if rows_num %}
+                <option selected="selected">{{ rows_num }}</option>
+            {% endif %}
+            {% for row in rows_num_list %}
+                <option>{{ row }}</option>
+            {% endfor %}
+        </select>
+    </span>
     </div>
 {% endblock %}
 
