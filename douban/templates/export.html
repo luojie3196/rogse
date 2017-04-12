@@ -26,11 +26,14 @@
     </em>
     <div>
         <span class="xls-btn"></span>
-        <span class="btn btn-link"><a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}"
-                                      target="_blank">Export to Excel</a></span>
-    <span class="rows-num-select">
+        <span class="btn btn-link">
+            <a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}" target="_blank">
+                Export to Excel
+            </a>
+        </span>
+        <span class="navbar-right rows-num-select">
         Number of rows:
-        <select name="rows_num" id="rows_num_select">
+        <select name="rows_num" id="rows_num_select" title="Number of rows:">
             {% if rows_num %}
                 <option selected="selected">{{ rows_num }}</option>
             {% endif %}

@@ -2,9 +2,8 @@
 # encoding:utf-8
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 import datetime
-import json
 from douban.models import Douban
 from douban.forms import DoubanForm, UserProfileCreationForm, UserProfileChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -13,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from douban.commons import *
 from django.core.mail import send_mail
+
 
 # Create your views here.
 
@@ -49,14 +49,9 @@ def dashboard(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
     if search_mode:
-        context = {'movies': movies,
-                   'keywords': request.GET['keywords'],
-                   'total': len(movie_list),
-                   'sort_order': sort_order}
-        return render(request, 'search.html', context=context)
-    context = {'movies': movies,
-               'sort_order': sort_order}
-    return render(request, 'dashboard.html', context=context)
+        total = movie_list.count()
+        return render(request, 'search.html', context=locals())
+    return render(request, 'dashboard.html', context=locals())
 
 
 def login_page(request):
@@ -66,7 +61,7 @@ def login_page(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/douban/')
+            return redirect('dashboard')
         else:
             return render(request, 'login.html', {'status': '1'})
     return render(request, 'login.html')
@@ -74,7 +69,7 @@ def login_page(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('/douban/login/')
+    return redirect('login_page')
 
 
 def register(request):
@@ -86,7 +81,7 @@ def register(request):
         form = UserProfileCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/douban/register/?status=0')
+            return HttpResponseRedirect('?status=0')
     return render(request, 'register.html', locals())
 
 
@@ -99,10 +94,10 @@ def reports_page(request):
 @login_required
 def analytics_page(request):
     movie_obj = Douban.objects.all()
-    map_data = generate_map_data(movie_obj)
-    type_name, type_num = generate_type_data(movie_obj)
+    map_data = generate_map_data(movie_obj.only('region'))
+    type_name, type_num = generate_type_data(movie_obj.only('m_type'))
     # regions = merge_to_list(p.region for p in movie_data)
-    year_data, year_name, year_num = generate_years_data(movie_obj)
+    year_data, year_name, year_num = generate_years_data(movie_obj.only('release_time'))
 
     return render(request, 'analytics.html', context=locals())
 
@@ -122,7 +117,7 @@ def export_page(request):
         pass
     else:
         if end_index not in rows_num_list or start_index > end_index:
-            return HttpResponseRedirect('/douban/export/')
+            return redirect('export_page')
         # generate excel first and then download it
         # file_name_path = generate_xls(movie_list, start_index, end_index)
         # return file_download(file_name_path)
@@ -143,7 +138,7 @@ def export_page(request):
         try:
             rows_num_list.remove(rows_num)
         except ValueError:
-            return HttpResponseRedirect('/douban/export/')
+            return redirect('export_page')
         paginator = Paginator(movie_list, rows_num)
 
     page = request.GET.get('page')
@@ -155,18 +150,8 @@ def export_page(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
-    if filter_mode:
-        context = {'movies': movies,
-                   'total': len(movie_list),
-                   'rows_num': request.GET['rows_num'],
-                   'rows_num_list': rows_num_list,
-                   'sort_order': sort_order}
-        return render(request, 'export.html', context=context)
-    context = {'movies': movies,
-               'total': len(movie_list),
-               'rows_num_list': rows_num_list,
-               'sort_order': sort_order}
-    return render(request, 'export.html', context=context)
+    total = movie_list.count()
+    return render(request, 'export.html', context=locals())
 
 
 @login_required
@@ -185,13 +170,15 @@ def settings_page(request):
         user_data['sex'] = request.POST['sex']
         user_data['phone_num'] = request.POST['phone_num']
         user_model.objects.filter(username=request.POST['username']).update(**user_data)
-        return HttpResponseRedirect('/douban/settings/?status=0')
+        return HttpResponseRedirect('?status=0')
     return render(request, 'settings.html', locals())
 
 
 @login_required
 def views_page(request):
     search_mode = True
+    m_types = M_TYPES
+    regions = REGIONS
     try:
         m_type = request.GET['m_type']
         keywords = request.GET['keywords']
@@ -220,18 +207,9 @@ def views_page(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
     if search_mode:
-        context = {'movies': movies,
-                   'm_types': M_TYPES,
-                   'regions': REGIONS,
-                   'm_type': request.GET['m_type'],
-                   'region': request.GET['region'],
-                   'keywords': request.GET['keywords'],
-                   'total': len(movie_list)}
-        return render(request, 'views_search_page.html', context=context)
-    context = {'movies': movies,
-               'm_types': M_TYPES,
-               'regions': REGIONS}
-    return render(request, 'views_page.html', context=context)
+        total = movie_list.count()
+        return render(request, 'views_search_page.html', context=locals())
+    return render(request, 'views_page.html', context=locals())
 
 
 def forgot_password(request):
