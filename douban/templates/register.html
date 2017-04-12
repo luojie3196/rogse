@@ -18,61 +18,79 @@
         <form class="form-horizontal" action="{% url 'register' %}" method="post">
             {% csrf_token %}
             <div class="form-group {% if form.username.errors %} has-error {% endif %}">
-                <label for="id_username" class="col-sm-2 control-label">Username:</label>
+                <label for="id_username" class="col-sm-2 control-label">Username *:</label>
                 <div class="col-sm-4">
                     {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="errors-info">
+                            {% for error in form.username.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="tips-info">{{ form.username.help_text }}</div>
+                    {% endif %}
                 </div>
-                {% if form.username.errors %}
-                  {% for error in form.username.errors %}
-                      {{ error|escape }}
-                  {% endfor %}
-                {% endif %}
             </div>
             <div class="form-group {% if form.password.errors %} has-error {% endif %}">
-                <label for="id_password" class="col-sm-2 control-label">Password:</label>
+                <label for="id_password" class="col-sm-2 control-label">Password *:</label>
                 <div class="col-sm-4">
                     {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="errors-info">
+                            {% for error in form.password.errors %}
+                                * {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="tips-info">{{ form.password.help_text }}</div>
+                    {% endif %}
                 </div>
-                {% if form.password.errors %}
-                  {% for error in form.password.errors %}
-                      {{ error|escape }}
-                  {% endfor %}
-                {% endif %}
             </div>
             <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
-                <label for="id_password2" class="col-sm-2 control-label">Confirm password:</label>
+                <label for="id_password2" class="col-sm-2 control-label">Confirm password *:</label>
                 <div class="col-sm-4">
                     {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="errors-info">
+                            {% for error in form.password2.errors %}
+                                * {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="tips-info">{{ form.password2.help_text }}</div>
+                    {% endif %}
                 </div>
-                {% if form.password2.errors %}
-                  {% for error in form.password2.errors %}
-                      {{ error|escape }}
-                  {% endfor %}
-                {% endif %}
             </div>
             <div class="form-group {% if form.email.errors %} has-error {% endif %}">
-                <label for="id_email" class="col-sm-2 control-label">Email:</label>
+                <label for="id_email" class="col-sm-2 control-label">Email *:</label>
                 <div class="col-sm-4">
                     {{ form.email }}
                     {% if form.email.errors %}
                         <div class="errors-info">
-                        {% for error in form.email.errors %}
-                            {{ error|escape }}
-                        {% endfor %}
+                            {% for error in form.email.errors %}
+                                * {{ error|escape }}
+                            {% endfor %}
                         </div>
+                    {% else %}
+                        <div class="tips-info">{{ form.email.help_text }}</div>
                     {% endif %}
                 </div>
             </div>
             <div class="form-group {% if form.real_name.errors %} has-error {% endif %}">
-                <label for="id_real_name" class="col-sm-2 control-label">Real name:</label>
+                <label for="id_real_name" class="col-sm-2 control-label">Real name *:</label>
                 <div class="col-sm-4">
                     {{ form.real_name }}
+                    {% if form.real_name.errors %}
+                        <div class="errors-info">
+                            {% for error in form.real_name.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="tips-info">{{ form.real_name.help_text }}</div>
+                    {% endif %}
                 </div>
-                {% if form.real_name.errors %}
-                  {% for error in form.real_name.errors %}
-                      {{ error|escape }}
-                  {% endfor %}
-                {% endif %}
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Sex:</label>
@@ -81,15 +99,19 @@
                 </div>
             </div>
             <div class="form-group {% if form.phone_num.errors %} has-error {% endif %}">
-                <label for="id_phone_num" class="col-sm-2 control-label">Phone number:</label>
+                <label for="id_phone_num" class="col-sm-2 control-label">Phone number *:</label>
                 <div class="col-sm-4">
                     {{ form.phone_num }}
+                    {% if form.phone_num.errors %}
+                        <div class="errors-info">
+                            {% for error in form.phone_num.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="tips-info">{{ form.phone_num.help_text }}</div>
+                    {% endif %}
                 </div>
-                {% if form.phone_num.errors %}
-                  {% for error in form.phone_num.errors %}
-                      {{ error|escape }}
-                  {% endfor %}
-                {% endif %}
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-4">

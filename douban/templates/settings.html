@@ -34,21 +34,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="inputEmail" class="col-sm-2 control-label">Email:</label>
+            <label for="inputEmail" class="col-sm-2 control-label">Email *:</label>
             <div class="col-sm-4">
                 <input id="inputEmail" type="email" class="form-control" name="email" value="{{ user.email }}"
-                       required="required" autocomplete="false"/>
+                       required="required" autocomplete="off" pattern="^\w+[\w_]*@\w+\.[a-zA-Z]+"/>
             </div>
         </div>
         <div class="form-group">
-            <label for="inputRealName" class="col-sm-2 control-label">Real name:</label>
+            <label for="inputRealName" class="col-sm-2 control-label">Real name *:</label>
             <div class="col-sm-4">
                 <input id="inputRealName" type="text" class="form-control" name="real_name" value="{{ user.real_name }}"
-                       autocomplete="false"/>
+                       autocomplete="off" pattern="^[a-zA-Z]+[\w_\ ]*"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Sex:</label>
+            <label class="col-sm-2 control-label">Sex *:</label>
             <div class="col-sm-2">
                 <select class="form-control" name="sex">
                     <option value="male">Male</option>
@@ -61,10 +61,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="inputPhoneNum" class="col-sm-2 control-label">Phone number:</label>
+            <label for="inputPhoneNum" class="col-sm-2 control-label">Phone number *:</label>
             <div class="col-sm-4">
                 <input id="inputPhoneNum" type="tel" class="form-control" name="phone_num" value="{{ user.phone_num }}"
-                       autocomplete="false"/>
+                       autocomplete="off" pattern="^\d+[\d\-]*"/>
             </div>
         </div>
         <div class="form-group">

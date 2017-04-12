@@ -38,12 +38,13 @@
     <em>
         <small>
             export({{ movies.start_index }}-{{ movies.end_index }} of {{ total }})
-            <div style="float:right">
-                <a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}" class="btn btn-warning"
-                   target="_blank">Export</a>
-            </div>
         </small>
     </em>
+    <div>
+        <span class="xls-btn"></span>
+        <span class="btn btn-link"><a href="?start_index={{ movies.start_index }}&end_index={{ movies.end_index }}"
+                                      target="_blank">Export to Excel</a></span>
+    </div>
 {% endblock %}
 
 {% block sub-header %}

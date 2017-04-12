@@ -20,25 +20,32 @@ class UserProfileCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     username = forms.CharField(min_length=4, max_length=15, required=True,
-                               label="User name",
+                               label="User name", help_text='Begin with letter, \
+                                               underlined, letters or numbers',
                                widget=forms.TextInput(attrs={'class': 'form-control',
-                                                             'placeholder': "Login username", 'autocomplete': 'off'}),
+                                                             'placeholder': "Login username",
+                                                             'autocomplete': 'off', 'pattern': r'^[a-zA-Z]+[\w_]*'}),
                                error_messages={'required': 'Please input login username',
                                                'invalid': 'username format error',
                                                'max_length': 'Input up to 15 characters',
                                                'min_length': 'Input at least 4 characters'})
     email = forms.EmailField(min_length=5, max_length=30, required=True, label="Email address",
                              widget=forms.EmailInput(attrs={'class': 'form-control', 'autocomplete': 'off',
-                                                            'placeholder': "Email address"}),
-                             error_messages={'required': 'Please input email address', 'invalid': 'email format error'})
-    real_name = forms.CharField(min_length=5, max_length=15, label="Real name",
+                                                            'placeholder': "Email address",
+                                                            'pattern': r'^\w+[\w_]*@\w+\.[a-zA-Z]+'}),
+                             error_messages={'required': 'Please input email address', 'invalid': 'Email format error'})
+    real_name = forms.CharField(min_length=5, max_length=15, label="Real name", help_text='Begin with letter, \
+                                               underlined, letters, space or numbers',
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off',
-                                                              'placeholder': "User real name"}))
+                                                              'placeholder': "User real name",
+                                                              'pattern': r'^[a-zA-Z]+[\w_\ ]*'}))
     sex = forms.CharField(label="Sex", widget=forms.Select(choices=models.SEX_CHOICES,
                                                            attrs={'class': 'form-control'}))
-    phone_num = forms.CharField(label='Phone number', min_length=5, max_length=15,
+    phone_num = forms.CharField(label='Phone number', min_length=5, max_length=15, help_text='Begin with numbers, \
+                                               middle line or numbers',
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off',
-                                                              'placeholder': "User phone number"}))
+                                                              'placeholder': "User phone number",
+                                                              'pattern': r'^\d+[\d\-]*'}))
     password = forms.CharField(min_length=6, max_length=18, label='Password',
                                widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': "Password"}))
@@ -73,6 +80,7 @@ class UserProfileChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
+
     # password = ReadOnlyPasswordHashField()
 
     class Meta:
