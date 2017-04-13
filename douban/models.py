@@ -53,7 +53,8 @@ class Douban(models.Model):
 
 
 class UserProfileManager(BaseUserManager):
-    def create_user(self, username, email, sex, password=None):
+    def create_user(self, username, email, sex, real_name,
+                    phone_num, password=None, *args, **kwargs):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -65,6 +66,8 @@ class UserProfileManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
             sex=sex,
+            real_name=real_name,
+            phone_num=phone_num,
         )
 
         user.set_password(password)

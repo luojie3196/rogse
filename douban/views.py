@@ -5,13 +5,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 import datetime
 from douban.models import Douban
-from douban.forms import DoubanForm, UserProfileCreationForm, UserProfileChangeForm
+from douban.forms import DoubanForm, UserProfileCreationForm, UserProfileChangeForm, LoginForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from douban.commons import *
 from django.core.mail import send_mail
+import re
 
 
 # Create your views here.
@@ -55,16 +56,27 @@ def dashboard(request):
 
 
 def login_page(request):
+    path = request.get_full_path()
+    # get next para if exist, and store it in session
+    next_para = re.findall(r'next=(.*)', path)
+    if next_para:
+        request.session['next_para'] = next_para[0]
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('dashboard')
-        else:
-            return render(request, 'login.html', {'status': '1'})
-    return render(request, 'login.html')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.clean()
+            user = authenticate(**form.cleaned_data)
+            if user is not None:
+                login(request, user)
+                if 'next_para' not in request.session:
+                    return redirect('dashboard')
+                # redirect to next url if exist
+                next_url = request.session['next_para']
+                request.session.pop('next_para')
+                return redirect(next_url)
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', locals())
 
 
 def logout_view(request):
@@ -73,15 +85,19 @@ def logout_view(request):
 
 
 def register(request):
-    form = UserProfileCreationForm()
-    if 'status' in request.GET:
-        status = request.GET['status']
-        return render(request, 'register.html', locals())
     if request.method == "POST":
         form = UserProfileCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('?status=0')
+            user_model = get_user_model()
+            # username = form.cleaned_data['username']
+            # password = form.cleaned_data['password']
+            user = user_model.objects.create_user(**form.cleaned_data)
+            user.save()
+            auth_user = authenticate(**form.cleaned_data)
+            login(request, auth_user)
+            return redirect("dashboard")
+    else:
+        form = UserProfileCreationForm()
     return render(request, 'register.html', locals())
 
 
