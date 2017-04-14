@@ -33,11 +33,13 @@
             <div class="col-sm-4">
                 {{ form.password }}
                 {% if form.password.errors %}
+                    {% if not form.username.errors %}
                     <div class="errors-info">
                         {% for error in form.password.errors %}
                             *{{ error|escape }}
                         {% endfor %}
                     </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

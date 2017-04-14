@@ -153,20 +153,28 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
+        user_model = get_user_model()
         username = cleaned_data.get("username")
         username = username.strip()
         cleaned_data['username'] = username
         password = cleaned_data.get("password")
         user = authenticate(username=username, password=password)
+        user_obj = user_model.objects.filter(username=username)
 
-        if user is not None:
-            if user.is_active:
-                return cleaned_data
+        is_active = False
+        if user_obj:
+            is_active = user_obj.values('is_active')[0]['is_active']
+        if is_active:
+            if not username or not password:
+                self.add_error('password', "Username/password not allowed empty")
+                # raise forms.ValidationError("Username/password not allowed empty")
+
             else:
-                raise forms.ValidationError("Account forbidden login")
-
-        if not username or not password:
-            raise forms.ValidationError("Username/password not allowed empty")
-
+                if user is not None and user.is_active:
+                    return cleaned_data
+                self.add_error('password', "Username and password not matched")
+                # raise forms.ValidationError("Username and password not matched")
         else:
-            raise forms.ValidationError("Username and password not matched")
+            self.add_error('username', "Account not exist or forbidden login")
+            # raise forms.ValidationError("Account forbidden login")
+
