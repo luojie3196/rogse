@@ -36,3 +36,7 @@ span.rows-num-select {
     font-size: medium;
 }
 
+.export-link {
+    margin: 0px;
+    padding: 0px;
+}

@@ -1,0 +1,49 @@
+{% load humanize filters i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{ now|naturaltime }}</h1>
+<h2>{{ 2|ordinal }}</h2>
+<br/>
+{{ now|naturalday }}
+<br/>
+{{ 10000000|intword }}
+<br/>
+{{ 450000|intcomma }}
+<br/>
+{{ 8|apnumber }}
+<br/>
+{{ "AAAbbbCDEFG"|lower }}
+<br/>
+<p>{{ '1234565434656473361726'|cut:'3' }}</p>
+
+<ul>
+    {% for athlete in athlete_list %}
+        <li>{{ athlete.name }}</li>
+    {% empty %}
+        <li>Sorry, no athletes in this list.</li>
+    {% endfor %}
+</ul>
+
+{% if douban_obj_lens %}
+    Number of athletes: {{ douban_obj_lens }}
+{% elif athlete_in_locker_room_list %}
+    Athletes should be out of the locker room soon!
+{% else %}
+    No athletes.
+{% endif %}
+<br/>
+It is {% now "jS F Y H:i" %}
+<br/>
+{% now "Y" as current_year %}
+{% blocktrans %}Copyright {{ current_year }}{% endblocktrans %}
+<br/>
+{% templatetag openblock %} url 'entry_list' {% templatetag closeblock %}
+<br/>
+<img src="{% static "microsoft-gray.png" %}"/>
+</body>
+</html>
